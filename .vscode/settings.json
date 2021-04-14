@@ -1,0 +1,9 @@
+{
+	"typescript.tsc.autoDetect": "off",
+	"search.exclude": {
+		"dist/*.*": true
+	},
+	"eslint.validate": [
+		"typescript",
+	],
+}

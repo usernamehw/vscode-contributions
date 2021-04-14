@@ -1,0 +1,98 @@
+{
+	"name": "contributions",
+	"displayName": "Contributions",
+	"description": "Generate vscode extension contributions table.",
+	"version": "0.0.1",
+	"publisher": "usernamehw",
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.53.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/usernamehw/vscode-contributions"
+	},
+	"activationEvents": [
+		"onCommand:contributions.generate"
+	],
+	"main": "./dist/extension",
+	"contributes": {
+		"commands": [
+			{
+				"command": "contributions.generate",
+				"title": "Generate contributions."
+			}
+		],
+		"configuration": {
+			"properties": {
+				"contributions.sort": {
+					"type": "string",
+					"description": "How to sort items in a table.",
+					"enum": [
+						"default",
+						"alphabetical"
+					],
+					"enumDescriptions": [
+						"Use order in which they are defined.",
+						"Use alphabetical order."
+					],
+					"default": "default"
+				},
+				"contributions.addStartEndDelimiters": {
+					"type": "boolean",
+					"description": "Add start and end delimiters to the table.",
+					"default": true
+				},
+				"contributions.alignDelimiters": {
+					"type": "boolean",
+					"description": "Make pretty table. (Not pretty if the table is big)",
+					"default": false
+				},
+				"contributions.addPadding": {
+					"type": "boolean",
+					"description": "Add whitespaces between delimiters and content.",
+					"default": false
+				},
+				"contributions.settings.truncateDefaultValue": {
+					"type": "integer",
+					"description": "Truncate default value if it's bigger than this setting. (0 to disable).",
+					"default": 0,
+					"minimum": 0,
+					"maximum": 500
+				},
+				"contributions.settings.truncateDescription": {
+					"type": "integer",
+					"description": "Truncate description if it's bigger than this setting. (0 to disable).",
+					"default": 0,
+					"minimum": 0,
+					"maximum": 500
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "webpack --mode production --color",
+		"watch": "webpack --mode development --watch --stats minimal"
+	},
+	"devDependencies": {
+		"@types/lodash": "^4.14.168",
+		"@types/node": "^12.20.7",
+		"@types/vscode": "^1.53.0",
+		"@typescript-eslint/eslint-plugin": "^4.21.0",
+		"@typescript-eslint/parser": "^4.21.0",
+		"eslint": "^7.24.0",
+		"eslint-plugin-no-autofix": "1.0.2",
+		"friendly-errors-webpack-plugin": "^1.7.0",
+		"ts-loader": "^8.1.0",
+		"typescript": "^4.2.4",
+		"webpack": "^5.31.2",
+		"webpack-cli": "^4.6.0"
+	},
+	"dependencies": {
+		"markdown-table": "^3.0.0"
+	}
+}

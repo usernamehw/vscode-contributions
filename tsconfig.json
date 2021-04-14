@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "ES2019",
+		"outDir": "out",
+		"lib": [
+			"ES2019"
+		],
+		"baseUrl": ".",
+		"paths": {
+			"src/*": [
+			  "./src/*"
+			]
+		},
+		"sourceMap": true,
+		"rootDir": "src",
+		"strict": true,
+		"strictBindCallApply": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		// "importsNotUsedAsValues": "error",
+	},
+	"include": [
+		"src/**/*.ts"
+	],
+	"exclude": [
+		"node_modules",
+		".vscode-test"
+	]
+}
