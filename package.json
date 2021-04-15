@@ -60,7 +60,7 @@
 				},
 				"contributions.wrapInDetailsTag": {
 					"type": "boolean",
-					"description": "Warp tables in <details>Collapsed</details> tag to look collapsed by default.",
+					"markdownDescription": "Warp tables in `<details>` tag to look collapsed by default.",
 					"default": false
 				},
 				"contributions.alignDelimiters": {
