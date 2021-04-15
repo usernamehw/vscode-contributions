@@ -1,4 +1,5 @@
 import { extensionConfig } from 'src/extension';
+import { generateColors } from 'src/generateColors';
 import { generateCommands } from 'src/generateCommands';
 import { generateSettings } from 'src/generateSettings';
 import { IExtensionManifest } from 'src/types';
@@ -47,12 +48,14 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 			window.showInformationMessage('No contributions');
 			return;
 		}
-		let settingsTable = generateSettings(contributes.configuration);
 		let commandsTable = generateCommands(contributes.commands);
+		let settingsTable = generateSettings(contributes.configuration);
+		let colorsTable = generateColors(contributes.colors);
 
 		if (extensionConfig.wrapInDetailsTag) {
-			settingsTable = wrapInDetailsTag(settingsTable, 'Settings');
 			commandsTable = wrapInDetailsTag(commandsTable, 'Commands');
+			settingsTable = wrapInDetailsTag(settingsTable, 'Settings');
+			colorsTable = wrapInDetailsTag(colorsTable, 'Colors');
 		}
 
 		openInUntitled(`
@@ -63,6 +66,10 @@ ${commandsTable}
 ## Settings
 
 ${settingsTable}
+
+## Colors
+
+${colorsTable}
 `.trim(), 'markdown');
 	}));
 }
