@@ -2,7 +2,7 @@ Generate VSCode extension contribution tables, like below:
 
 ## Commands
 
-|Id|Title|
+|Command|Description|
 |-|-|
 |`contributions.generate`|Generate contributions.|
 
