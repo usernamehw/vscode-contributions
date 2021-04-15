@@ -3,10 +3,10 @@ import { mdTable } from 'src/extensionUtils';
 import { Color2, generateColors } from 'src/generateColors';
 import { Command2, generateCommands } from 'src/generateCommands';
 import { generateSettings, Setting2 } from 'src/generateSettings';
-import { IExtensionManifest } from 'src/types';
+import { IExtensionContributions, IExtensionManifest } from 'src/types';
 import { wrapInBackticks, wrapInDetailsTag } from 'src/utils';
 import { openInUntitled } from 'src/vscodeUtils';
-import { commands, Disposable, Uri, window, workspace } from 'vscode';
+import { commands, Disposable, extensions, QuickPickItem, Uri, window, workspace } from 'vscode';
 
 export function registerAllCommands(subscriptions: Disposable[]) {
 	subscriptions.push(commands.registerCommand('contributions.generate', async () => {
@@ -49,49 +49,73 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 			window.showInformationMessage('No contributions');
 			return;
 		}
-		const commands2: Command2[] = contributes.commands ? generateCommands(contributes.commands) : [];
-		const settings2: Setting2[] = contributes.configuration ? generateSettings(contributes.configuration) : [];
-		const colors2: Color2[] = contributes.colors ? generateColors(contributes.colors) : [];
+		generateContributions(contributes);
+	}));
+	// ──────────────────────────────────────────────────────────────────────
+	subscriptions.push(commands.registerCommand('contributions.generateForInstalled', async () => {
+		const itemsForQuickPick: QuickPickItem[] = extensions.all.map(ext => ({
+			label: (ext.packageJSON as IExtensionManifest).displayName || (ext.packageJSON as IExtensionManifest).name,
+			detail: ext.id,
+		}));
 
-		if (extensionConfig.sort === 'alphabetical') {
-			commands2.sort((a, b) => a.id.localeCompare(b.id));
-			settings2.sort((a, b) => a.id.localeCompare(b.id));
-			colors2.sort((a, b) => a.id.localeCompare(b.id));
+		const picked = await window.showQuickPick(itemsForQuickPick);
+		if (!picked) {
+			return;
 		}
 
-		let commandsTable = mdTable([
-			['Command', 'Description'],
-			...commands2.map(command => [
-				command.id,
-				command.title,
-			])]);
-		let settingsTable = mdTable([
-			['Setting', 'Type', 'Default', 'Description'],
-			...settings2.map(item => [
-				item.id,
-				item.type,
-				item.default,
-				item.description,
-			]),
-		]);
-		let colorsTable = mdTable([
-			['Color', 'Dark', 'Light', 'HC', 'Description'],
-			...colors2.map(color => [
-				color.id,
-				wrapInBackticks(color.dark),
-				wrapInBackticks(color.light),
-				wrapInBackticks(color.hc),
-				color.description,
-			]),
-		]);
+		const pickedExtension = extensions.getExtension(picked.detail!);
+		const contributions = (pickedExtension?.packageJSON as IExtensionManifest).contributes;
 
-		if (extensionConfig.wrapInDetailsTag) {
-			commandsTable = wrapInDetailsTag(commandsTable, 'Commands');
-			settingsTable = wrapInDetailsTag(settingsTable, 'Settings');
-			colorsTable = wrapInDetailsTag(colorsTable, 'Colors');
+		if (contributions) {
+			generateContributions(contributions);
 		}
+	}));
+}
 
-		openInUntitled(`
+function generateContributions(contributions: IExtensionContributions) {
+	const commands2: Command2[] = contributions.commands ? generateCommands(contributions.commands) : [];
+	const settings2: Setting2[] = contributions.configuration ? generateSettings(contributions.configuration) : [];
+	const colors2: Color2[] = contributions.colors ? generateColors(contributions.colors) : [];
+
+	if (extensionConfig.sort === 'alphabetical') {
+		commands2.sort((a, b) => a.id.localeCompare(b.id));
+		settings2.sort((a, b) => a.id.localeCompare(b.id));
+		colors2.sort((a, b) => a.id.localeCompare(b.id));
+	}
+
+	let commandsTable = mdTable([
+		['Command', 'Description'],
+		...commands2.map(command => [
+			command.id,
+			command.title,
+		])]);
+	let settingsTable = mdTable([
+		['Setting', 'Type', 'Default', 'Description'],
+		...settings2.map(item => [
+			item.id,
+			item.type,
+			item.default,
+			item.description,
+		]),
+	]);
+	let colorsTable = mdTable([
+		['Color', 'Dark', 'Light', 'HC', 'Description'],
+		...colors2.map(color => [
+			color.id,
+			wrapInBackticks(color.dark),
+			wrapInBackticks(color.light),
+			wrapInBackticks(color.hc),
+			color.description,
+		]),
+	]);
+
+	if (extensionConfig.wrapInDetailsTag) {
+		commandsTable = wrapInDetailsTag(commandsTable, 'Commands');
+		settingsTable = wrapInDetailsTag(settingsTable, 'Settings');
+		colorsTable = wrapInDetailsTag(colorsTable, 'Colors');
+	}
+
+	openInUntitled(`
 ## Commands
 
 ${commandsTable}
@@ -104,5 +128,4 @@ ${settingsTable}
 
 ${colorsTable}
 `.trim(), 'markdown');
-	}));
 }
