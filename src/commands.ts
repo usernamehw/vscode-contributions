@@ -1,9 +1,10 @@
 import { extensionConfig } from 'src/extension';
-import { generateColors } from 'src/generateColors';
-import { generateCommands } from 'src/generateCommands';
-import { generateSettings } from 'src/generateSettings';
+import { mdTable } from 'src/extensionUtils';
+import { Color2, generateColors } from 'src/generateColors';
+import { Command2, generateCommands } from 'src/generateCommands';
+import { generateSettings, Setting2 } from 'src/generateSettings';
 import { IExtensionManifest } from 'src/types';
-import { wrapInDetailsTag } from 'src/utils';
+import { wrapInBackticks, wrapInDetailsTag } from 'src/utils';
 import { openInUntitled } from 'src/vscodeUtils';
 import { commands, Disposable, Uri, window, workspace } from 'vscode';
 
@@ -48,9 +49,41 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 			window.showInformationMessage('No contributions');
 			return;
 		}
-		let commandsTable = generateCommands(contributes.commands);
-		let settingsTable = generateSettings(contributes.configuration);
-		let colorsTable = generateColors(contributes.colors);
+		const commands2: Command2[] = contributes.commands ? generateCommands(contributes.commands) : [];
+		const settings2: Setting2[] = contributes.configuration ? generateSettings(contributes.configuration) : [];
+		const colors2: Color2[] = contributes.colors ? generateColors(contributes.colors) : [];
+
+		if (extensionConfig.sort === 'alphabetical') {
+			commands2.sort((a, b) => a.id.localeCompare(b.id));
+			settings2.sort((a, b) => a.id.localeCompare(b.id));
+			colors2.sort((a, b) => a.id.localeCompare(b.id));
+		}
+
+		let commandsTable = mdTable([
+			['Command', 'Description'],
+			...commands2.map(command => [
+				command.id,
+				command.title,
+			])]);
+		let settingsTable = mdTable([
+			['Setting', 'Type', 'Default', 'Description'],
+			...settings2.map(item => [
+				item.id,
+				item.type,
+				item.default,
+				item.description,
+			]),
+		]);
+		let colorsTable = mdTable([
+			['Color', 'Dark', 'Light', 'HC', 'Description'],
+			...colors2.map(color => [
+				color.id,
+				wrapInBackticks(color.dark),
+				wrapInBackticks(color.light),
+				wrapInBackticks(color.hc),
+				color.description,
+			]),
+		]);
 
 		if (extensionConfig.wrapInDetailsTag) {
 			commandsTable = wrapInDetailsTag(commandsTable, 'Commands');

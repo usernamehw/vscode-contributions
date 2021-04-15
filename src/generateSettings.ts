@@ -3,12 +3,8 @@ import { extensionConfig } from 'src/extension';
 import { IConfigurationProperty, IExtensionContributions } from 'src/types';
 import { getMarkdownTableOptions, ln2br, mdln2br, truncateString, wrapInBackticks } from 'src/utils';
 
-export function generateSettings(settingsContrib: IExtensionContributions['configuration']) {
-	if (settingsContrib === undefined) {
-		return '';
-	}
-
-	const settingItems: SettingItem[] = [];
+export function generateSettings(settingsContrib: NonNullable<IExtensionContributions['configuration']>) {
+	const settingItems: Setting2[] = [];
 
 	if (Array.isArray(settingsContrib)) {
 		for (const setting of settingsContrib) {
@@ -26,24 +22,16 @@ export function generateSettings(settingsContrib: IExtensionContributions['confi
 		settingItems.sort((a, b) => a.id.localeCompare(b.id));
 	}
 
-	return markdownTable([
-		['Setting', 'Type', 'Default', 'Description'],
-		...settingItems.map(item => [
-			item.id,
-			item.type,
-			item.default,
-			item.description,
-		]),
-	], getMarkdownTableOptions());
+	return settingItems;
 }
 
-export interface SettingItem {
+export interface Setting2 {
 	id: string;
 	type: string;
 	default: string;
 	description: string;
 }
-export function settingToString(key: string, property: IConfigurationProperty): SettingItem {
+export function settingToString(key: string, property: IConfigurationProperty): Setting2 {
 	return {
 		id: key,
 		type: property.type.toString(),

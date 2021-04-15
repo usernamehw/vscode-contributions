@@ -1,12 +1,11 @@
-import { markdownTable } from 'markdown-table';
-import { extensionConfig } from 'src/extension';
 import { IExtensionContributions } from 'src/types';
-import { getMarkdownTableOptions, wrapInBackticks } from 'src/utils';
 
-export function generateCommands(commandsContrib: IExtensionContributions['commands']) {
-	if (!commandsContrib) {
-		return '';
-	}
+export interface Command2 {
+	id: string;
+	title: string;
+}
+
+export function generateCommands(commandsContrib: NonNullable<IExtensionContributions['commands']>): Command2[] {
 	const commands = [];
 	for (const commandContrib of commandsContrib) {
 		commands.push({
@@ -14,16 +13,5 @@ export function generateCommands(commandsContrib: IExtensionContributions['comma
 			title: (commandContrib.category ? `${commandContrib.category}: ` : '') + commandContrib.title,
 		});
 	}
-
-	if (extensionConfig.sort === 'alphabetical') {
-		commands.sort((a, b) => a.title.localeCompare(b.title));
-	}
-
-	return markdownTable([
-		['Command', 'Description'],
-		...commands.map(command => [
-			command.id,
-			command.title,
-		]),
-	], getMarkdownTableOptions());
+	return commands;
 }

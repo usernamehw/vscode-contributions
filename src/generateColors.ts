@@ -1,12 +1,14 @@
-import { markdownTable } from 'markdown-table';
 import { IExtensionContributions } from 'src/types';
-import { getMarkdownTableOptions, wrapInBackticks } from 'src/utils';
 
-export function generateColors(colorsContrib: IExtensionContributions['colors']) {
-	if (!colorsContrib) {
-		return '';
-	}
+export interface Color2 {
+	id: string;
+	dark: string;
+	light: string;
+	hc: string;
+	description: string;
+}
 
+export function generateColors(colorsContrib: NonNullable<IExtensionContributions['colors']>): Color2[] {
 	const colors = [];
 
 	for (const color of colorsContrib) {
@@ -19,14 +21,5 @@ export function generateColors(colorsContrib: IExtensionContributions['colors'])
 		});
 	}
 
-	return markdownTable([
-		['Color', 'Dark', 'Light', 'HC', 'Description'],
-		...colors.map(color => [
-			color.id,
-			wrapInBackticks(color.dark),
-			wrapInBackticks(color.light),
-			wrapInBackticks(color.hc),
-			color.description,
-		]),
-	], getMarkdownTableOptions());
+	return colors;
 }
