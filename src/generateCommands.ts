@@ -20,7 +20,7 @@ export function generateCommands(commandsContrib: IExtensionContributions['comma
 	}
 
 	return markdownTable([
-		['Id', 'Title'],
+		['Command', 'Description'],
 		...commands.map(command => [
 			wrapInBackticks(command.id),
 			command.title,
