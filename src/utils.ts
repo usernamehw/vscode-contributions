@@ -33,3 +33,7 @@ ${text}
 
 </details>`;
 }
+
+export function escapeVerticalBar(str: string) {
+	return str.replace(/\|/g, '\\|');
+}
