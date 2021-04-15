@@ -11,7 +11,13 @@
 	"categories": [
 		"Other"
 	],
-	"keywords": [],
+	"keywords": [
+		"generate",
+		"contribution",
+		"contributions",
+		"table",
+		"README"
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/usernamehw/vscode-contributions"
