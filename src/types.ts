@@ -1,5 +1,6 @@
 export interface ExtensionConfig {
 	sort: 'alphabetical' | 'default';
+	wrapInDetailsTag: boolean;
 	alignDelimiters: boolean;
 	addPadding: boolean;
 	addStartEndDelimiters: boolean;

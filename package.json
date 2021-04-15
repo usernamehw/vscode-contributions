@@ -47,6 +47,11 @@
 					"description": "Add start and end delimiters to the table.",
 					"default": true
 				},
+				"contributions.wrapInDetailsTag": {
+					"type": "boolean",
+					"description": "Warp tables in <details></details> tag to look collapsed by default.",
+					"default": false
+				},
 				"contributions.alignDelimiters": {
 					"type": "boolean",
 					"description": "Make pretty table. (Not pretty if the table is big)",

@@ -25,3 +25,11 @@ export function getMarkdownTableOptions(): MarkdownTableOptions {
 export function wrapInBackticks(str: string) {
 	return `\`${str}\``;
 }
+
+export function wrapInDetailsTag(text: string, header: string) {
+	return `<details><summary>${header} list</summary>
+
+${text}
+
+</details>`;
+}

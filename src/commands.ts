@@ -1,6 +1,8 @@
+import { extensionConfig } from 'src/extension';
 import { generateCommands } from 'src/generateCommands';
 import { generateSettings } from 'src/generateSettings';
 import { IExtensionManifest } from 'src/types';
+import { wrapInDetailsTag } from 'src/utils';
 import { openInUntitled } from 'src/vscodeUtils';
 import { commands, Disposable, Uri, window, workspace } from 'vscode';
 
@@ -45,8 +47,14 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 			window.showInformationMessage('No contributions');
 			return;
 		}
-		const settingsTable = generateSettings(contributes.configuration);
-		const commandsTable = generateCommands(contributes.commands);
+		let settingsTable = generateSettings(contributes.configuration);
+		let commandsTable = generateCommands(contributes.commands);
+
+		if (extensionConfig.wrapInDetailsTag) {
+			settingsTable = wrapInDetailsTag(settingsTable, 'Settings');
+			commandsTable = wrapInDetailsTag(commandsTable, 'Commands');
+		}
+
 		openInUntitled(`
 ## Commands
 
