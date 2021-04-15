@@ -22,7 +22,7 @@ export function generateColors(colorsContrib: IExtensionContributions['colors'])
 	return markdownTable([
 		['Color', 'Dark', 'Light', 'HC', 'Description'],
 		...colors.map(color => [
-			wrapInBackticks(color.id),
+			color.id,
 			wrapInBackticks(color.dark),
 			wrapInBackticks(color.light),
 			wrapInBackticks(color.hc),

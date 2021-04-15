@@ -23,13 +23,13 @@ export function generateSettings(settingsContrib: IExtensionContributions['confi
 	}
 
 	if (extensionConfig.sort === 'alphabetical') {
-		settingItems.sort((a, b) => a.title.localeCompare(b.title));
+		settingItems.sort((a, b) => a.id.localeCompare(b.id));
 	}
 
 	return markdownTable([
 		['Setting', 'Type', 'Default', 'Description'],
 		...settingItems.map(item => [
-			wrapInBackticks(item.title),
+			item.id,
 			item.type,
 			item.default,
 			item.description,
@@ -38,14 +38,14 @@ export function generateSettings(settingsContrib: IExtensionContributions['confi
 }
 
 export interface SettingItem {
-	title: string;
+	id: string;
 	type: string;
 	default: string;
 	description: string;
 }
 export function settingToString(key: string, property: IConfigurationProperty): SettingItem {
 	return {
-		title: key,
+		id: key,
 		type: property.type.toString(),
 		default: property.default !== undefined ? settingValueToString(property.default) : '',
 		description: descriptionToString(property),
