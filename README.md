@@ -18,4 +18,4 @@ Generate VSCode extension contribution tables, like below:
 |`contributions.settings.truncateDefaultValue`|integer|**0**|Truncate default value if it's bigger than this setting. (0 to disable).|
 |`contributions.settings.truncateDescription`|integer|**0**|Truncate description if it's bigger than this setting. (0 to disable).|
 
-<svg width="15" height="15"><rect width="15" height="15" style="fill:#ff0000;"/></svg>
+<span style="width:15px;height:15px;display:inline-block;background-color:#ff0000"></span>
