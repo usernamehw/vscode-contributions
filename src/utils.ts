@@ -21,3 +21,7 @@ export function getMarkdownTableOptions(): MarkdownTableOptions {
 		delimiterStart: extensionConfig.addStartEndDelimiters,
 	};
 }
+
+export function wrapInBackticks(str: string) {
+	return `\`${str}\``;
+}

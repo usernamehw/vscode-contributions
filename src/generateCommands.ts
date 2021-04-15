@@ -1,7 +1,7 @@
 import { markdownTable } from 'markdown-table';
 import { extensionConfig } from 'src/extension';
 import { IExtensionContributions } from 'src/types';
-import { getMarkdownTableOptions } from 'src/utils';
+import { getMarkdownTableOptions, wrapInBackticks } from 'src/utils';
 
 export function generateCommands(commandsContrib: IExtensionContributions['commands']) {
 	if (!commandsContrib) {
@@ -10,7 +10,7 @@ export function generateCommands(commandsContrib: IExtensionContributions['comma
 	const commands = [];
 	for (const commandContrib of commandsContrib) {
 		commands.push({
-			id: `\`${commandContrib.command}\``,
+			id: commandContrib.command,
 			title: (commandContrib.category ? `${commandContrib.category}: ` : '') + commandContrib.title,
 		});
 	}
@@ -21,6 +21,9 @@ export function generateCommands(commandsContrib: IExtensionContributions['comma
 
 	return markdownTable([
 		['Id', 'Title'],
-		...commands.map(command => [command.id, command.title]),
+		...commands.map(command => [
+			wrapInBackticks(command.id),
+			command.title,
+		]),
 	], getMarkdownTableOptions());
 }

@@ -1,7 +1,7 @@
 import { markdownTable } from 'markdown-table';
 import { extensionConfig } from 'src/extension';
 import { IConfigurationProperty, IExtensionContributions } from 'src/types';
-import { getMarkdownTableOptions, ln2br, mdln2br, truncateString } from 'src/utils';
+import { getMarkdownTableOptions, ln2br, mdln2br, truncateString, wrapInBackticks } from 'src/utils';
 
 export function generateSettings(settingsContrib: IExtensionContributions['configuration']) {
 	if (settingsContrib === undefined) {
@@ -29,7 +29,7 @@ export function generateSettings(settingsContrib: IExtensionContributions['confi
 	return markdownTable([
 		['Setting', 'Type', 'Default', 'Description'],
 		...settingItems.map(item => [
-			item.title,
+			wrapInBackticks(item.title),
 			item.type,
 			item.default,
 			item.description,
