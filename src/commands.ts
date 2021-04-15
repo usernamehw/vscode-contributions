@@ -115,17 +115,9 @@ function generateContributions(contributions: IExtensionContributions) {
 		colorsTable = wrapInDetailsTag(colorsTable, 'Colors');
 	}
 
-	openInUntitled(`
-## Commands
+	commandsTable = commands2.length ? `## Commands (${commands2.length})\n\n${commandsTable}\n\n` : '';
+	settingsTable = settings2.length ? `## Settings (${settings2.length})\n\n${settingsTable}\n\n` : '';
+	colorsTable = colors2.length ? `## Colors (${colors2.length})\n\n${colorsTable}\n\n` : '';
 
-${commandsTable}
-
-## Settings
-
-${settingsTable}
-
-## Colors
-
-${colorsTable}
-`.trim(), 'markdown');
+	openInUntitled(commandsTable + settingsTable + colorsTable, 'markdown');
 }
