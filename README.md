@@ -17,3 +17,5 @@ Generate VSCode extension contribution tables, like below:
 |`contributions.addPadding`|boolean|**false**|Add whitespaces between delimiters and content.|
 |`contributions.settings.truncateDefaultValue`|integer|**0**|Truncate default value if it's bigger than this setting. (0 to disable).|
 |`contributions.settings.truncateDescription`|integer|**0**|Truncate description if it's bigger than this setting. (0 to disable).|
+
+<svg width="15" height="15"><rect width="15" height="15" style="fill:#ff0000;"/></svg>
