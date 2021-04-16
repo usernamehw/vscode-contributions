@@ -1,7 +1,6 @@
-import { markdownTable } from 'markdown-table';
 import { extensionConfig } from 'src/extension';
 import { IConfigurationProperty, IExtensionContributions } from 'src/types';
-import { getMarkdownTableOptions, ln2br, mdln2br, truncateString, wrapInBackticks } from 'src/utils';
+import { ln2br, mdln2br, truncateString } from 'src/utils';
 
 export function generateSettings(settingsContrib: NonNullable<IExtensionContributions['configuration']>) {
 	const settingItems: Setting2[] = [];
@@ -16,10 +15,6 @@ export function generateSettings(settingsContrib: NonNullable<IExtensionContribu
 		for (const key in settingsContrib.properties) {
 			settingItems.push(settingToString(key, settingsContrib.properties[key]));
 		}
-	}
-
-	if (extensionConfig.sort === 'alphabetical') {
-		settingItems.sort((a, b) => a.id.localeCompare(b.id));
 	}
 
 	return settingItems;
