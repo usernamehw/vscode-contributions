@@ -1,3 +1,7 @@
+## 0.0.3 `16 Apr 2021`
+
+- 🐛 Wrap strings in backticks
+
 ## 0.0.2 `16 Apr 2021`
 
 - ✨ Auto insert tables into README file
