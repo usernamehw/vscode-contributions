@@ -73,6 +73,11 @@
 					"description": "Add whitespaces between delimiters and content.",
 					"default": false
 				},
+				"contributions.settings.moveOutPrefix": {
+					"type": "boolean",
+					"description": "Move common extension prefix from the first settings table column. (VSMarketplace has bad rendering for wide tables).",
+					"default": false
+				},
 				"contributions.settings.truncateDefaultValue": {
 					"type": "integer",
 					"description": "Truncate default value if it's bigger than this setting. (0 to disable).",

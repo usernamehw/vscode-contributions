@@ -37,3 +37,7 @@ ${text}
 export function escapeVerticalBar(str: string) {
 	return str.replace(/\|/g, '\\|');
 }
+
+export function removePrefix(str: string, prefix: string) {
+	return str.replace(prefix, '');
+}

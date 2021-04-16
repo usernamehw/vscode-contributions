@@ -6,6 +6,7 @@ export interface ExtensionConfig {
 	addStartEndDelimiters: boolean;
 
 	settings: {
+		moveOutPrefix: boolean;
 		truncateDefaultValue: number;
 		truncateDescription: number;
 	};

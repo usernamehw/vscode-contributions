@@ -4,9 +4,15 @@ import { Color2, generateColors } from 'src/generateColors';
 import { Command2, generateCommands } from 'src/generateCommands';
 import { generateSettings, Setting2 } from 'src/generateSettings';
 import { IExtensionContributions, IExtensionManifest } from 'src/types';
-import { wrapInBackticks, wrapInDetailsTag } from 'src/utils';
+import { removePrefix, wrapInBackticks, wrapInDetailsTag } from 'src/utils';
 import { openInUntitled } from 'src/vscodeUtils';
 import { commands, Disposable, extensions, QuickPickItem, Uri, window, workspace } from 'vscode';
+
+const enum Constants {
+	'Settings' = 'Settings',
+	'Commands' = 'Commands',
+	'Colors' = 'Colors',
+}
 
 export function registerAllCommands(subscriptions: Disposable[]) {
 	subscriptions.push(commands.registerCommand('contributions.generate', async () => {
@@ -49,7 +55,7 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 			window.showInformationMessage('No contributions');
 			return;
 		}
-		generateContributions(contributes);
+		generateContributions(contributes, parsedJson);
 	}));
 	// ──────────────────────────────────────────────────────────────────────
 	subscriptions.push(commands.registerCommand('contributions.generateForInstalled', async () => {
@@ -67,12 +73,12 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 		const contributions = (pickedExtension?.packageJSON as IExtensionManifest).contributes;
 
 		if (contributions) {
-			generateContributions(contributions);
+			generateContributions(contributions, pickedExtension?.packageJSON);
 		}
 	}));
 }
 
-function generateContributions(contributions: IExtensionContributions) {
+function generateContributions(contributions: IExtensionContributions, packageJSON: IExtensionManifest) {
 	const commands2: Command2[] = contributions.commands ? generateCommands(contributions.commands) : [];
 	const settings2: Setting2[] = contributions.configuration ? generateSettings(contributions.configuration) : [];
 	const colors2: Color2[] = contributions.colors ? generateColors(contributions.colors) : [];
@@ -92,7 +98,7 @@ function generateContributions(contributions: IExtensionContributions) {
 	let settingsTable = mdTable([
 		['Setting', 'Type', 'Default', 'Description'],
 		...settings2.map(item => [
-			item.id,
+			extensionConfig.settings.moveOutPrefix ? removePrefix(item.id, `${packageJSON.name}.`) : item.id,
 			item.type,
 			item.default,
 			item.description,
@@ -109,15 +115,19 @@ function generateContributions(contributions: IExtensionContributions) {
 		]),
 	]);
 
-	if (extensionConfig.wrapInDetailsTag) {
-		commandsTable = wrapInDetailsTag(commandsTable, 'Commands');
-		settingsTable = wrapInDetailsTag(settingsTable, 'Settings');
-		colorsTable = wrapInDetailsTag(colorsTable, 'Colors');
+	if (extensionConfig.settings.moveOutPrefix) {
+		settingsTable = `> **${packageJSON.displayName || packageJSON.name}** extension settings start with \`${packageJSON.name}\`\n\n${settingsTable}`;
 	}
 
-	commandsTable = commands2.length ? `## Commands (${commands2.length})\n\n${commandsTable}\n\n` : '';
-	settingsTable = settings2.length ? `## Settings (${settings2.length})\n\n${settingsTable}\n\n` : '';
-	colorsTable = colors2.length ? `## Colors (${colors2.length})\n\n${colorsTable}\n\n` : '';
+	if (extensionConfig.wrapInDetailsTag) {
+		commandsTable = wrapInDetailsTag(commandsTable, Constants.Commands);
+		settingsTable = wrapInDetailsTag(settingsTable, Constants.Settings);
+		colorsTable = wrapInDetailsTag(colorsTable, Constants.Colors);
+	}
+
+	commandsTable = commands2.length ? `## ${Constants.Commands} (${commands2.length})\n\n${commandsTable}\n\n` : '';
+	settingsTable = settings2.length ? `## ${Constants.Settings} (${settings2.length})\n\n${settingsTable}\n\n` : '';
+	colorsTable = colors2.length ? `## ${Constants.Colors} (${colors2.length})\n\n${colorsTable}\n\n` : '';
 
 	openInUntitled(commandsTable + settingsTable + colorsTable, 'markdown');
 }
