@@ -26,4 +26,3 @@ Generate VSCode extension contribution tables, like below:
 |settings.truncateDefaultValue|integer|**0**|Truncate default value if it's bigger than this setting. (0 to disable).|
 |settings.truncateDescription|integer|**0**|Truncate description if it's bigger than this setting. (0 to disable).|
 <!-- SETTINGS_END -->
-
