@@ -5,7 +5,7 @@ import { Color2, generateColors } from 'src/generateColors';
 import { Command2, generateCommands } from 'src/generateCommands';
 import { generateSettings, Setting2 } from 'src/generateSettings';
 import { IExtensionContributions, IExtensionManifest } from 'src/types';
-import { removeLastChar, removePrefix, wrapInBackticks, wrapInDetailsTag } from 'src/utils';
+import { findCommonPrefix, removeLastChar, removePrefix, wrapInBackticks, wrapInDetailsTag } from 'src/utils';
 import { openInUntitled } from 'src/vscodeUtils';
 import { commands, Disposable, extensions, QuickPickItem, Uri, window, workspace } from 'vscode';
 
@@ -103,10 +103,14 @@ async function generateContributions(contributions: IExtensionContributions, pac
 			command.id,
 			command.title,
 		])]);
+	let commonPrefix = '';
+	if (extensionConfig.settings.moveOutPrefix) {
+		commonPrefix = findCommonPrefix(settings2.map(setting => setting.id));
+	}
 	let settingsTable = mdTable([
 		['Setting', 'Type', 'Default', 'Description'],
 		...settings2.map(item => [
-			extensionConfig.settings.moveOutPrefix ? removePrefix(item.id, `${packageJSON.name}.`) : item.id,
+			extensionConfig.settings.moveOutPrefix ? removePrefix(item.id, commonPrefix) : item.id,
 			item.type,
 			item.default,
 			item.description,
@@ -124,7 +128,7 @@ async function generateContributions(contributions: IExtensionContributions, pac
 	]);
 
 	if (extensionConfig.settings.moveOutPrefix) {
-		settingsTable = `> **${packageJSON.displayName || packageJSON.name}** extension settings start with \`${packageJSON.name}.\`\n\n${settingsTable}`;
+		settingsTable = `> **${packageJSON.displayName || packageJSON.name}** extension settings start with \`${commonPrefix}\`\n\n${settingsTable}`;
 	}
 
 	if (extensionConfig.wrapInDetailsTag) {

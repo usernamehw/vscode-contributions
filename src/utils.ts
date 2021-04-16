@@ -45,3 +45,17 @@ export function removePrefix(str: string, prefix: string) {
 export function removeLastChar(str: string) {
 	return str.slice(0, -1);
 }
+
+export function findCommonPrefix(strings: string[]) {
+	let prefix = '';
+	for (let i = 0; i < strings[0].length; i++) {
+		const char = strings[0][i];
+		for (let j = 1; j < strings.length; j++) {
+			if (strings[j][i] !== char) {
+				return prefix;
+			}
+		}
+		prefix += char;
+	}
+	return prefix;
+}
