@@ -116,7 +116,7 @@ function generateContributions(contributions: IExtensionContributions, packageJS
 	]);
 
 	if (extensionConfig.settings.moveOutPrefix) {
-		settingsTable = `> **${packageJSON.displayName || packageJSON.name}** extension settings start with \`${packageJSON.name}\`\n\n${settingsTable}`;
+		settingsTable = `> **${packageJSON.displayName || packageJSON.name}** extension settings start with \`${packageJSON.name}.\`\n\n${settingsTable}`;
 	}
 
 	if (extensionConfig.wrapInDetailsTag) {

@@ -58,11 +58,6 @@
 					"description": "Add start and end delimiters to the table.",
 					"default": true
 				},
-				"contributions.wrapInDetailsTag": {
-					"type": "boolean",
-					"markdownDescription": "Warp tables in `<details>` tag to look collapsed by default.",
-					"default": false
-				},
 				"contributions.alignDelimiters": {
 					"type": "boolean",
 					"description": "Make pretty table. (Not pretty if the table is big)",
@@ -71,6 +66,11 @@
 				"contributions.addPadding": {
 					"type": "boolean",
 					"description": "Add whitespaces between delimiters and content.",
+					"default": false
+				},
+				"contributions.wrapInDetailsTag": {
+					"type": "boolean",
+					"markdownDescription": "Warp tables in `<details>` tag to look collapsed by default.",
 					"default": false
 				},
 				"contributions.settings.moveOutPrefix": {
