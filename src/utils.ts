@@ -41,3 +41,7 @@ export function escapeVerticalBar(str: string) {
 export function removePrefix(str: string, prefix: string) {
 	return str.replace(prefix, '');
 }
+
+export function removeLastChar(str: string) {
+	return str.slice(0, -1);
+}

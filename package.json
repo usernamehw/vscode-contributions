@@ -73,6 +73,11 @@
 					"markdownDescription": "Warp tables in `<details>` tag to look collapsed by default.",
 					"default": false
 				},
+				"contributions.autoInsertIntoREADME": {
+					"type": "boolean",
+					"description": "On generating a table - insert it into the README file instead of opening an Untitled file.",
+					"default": true
+				},
 				"contributions.settings.moveOutPrefix": {
 					"type": "boolean",
 					"description": "Move common extension prefix from the first settings table column. (VSMarketplace has bad rendering for wide tables).",

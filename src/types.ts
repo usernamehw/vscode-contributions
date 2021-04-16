@@ -4,6 +4,7 @@ export interface ExtensionConfig {
 	alignDelimiters: boolean;
 	addPadding: boolean;
 	addStartEndDelimiters: boolean;
+	autoInsertIntoREADME: boolean;
 
 	settings: {
 		moveOutPrefix: boolean;
