@@ -29,7 +29,7 @@ export interface Setting2 {
 export function settingToString(key: string, property: IConfigurationProperty): Setting2 {
 	return {
 		id: key,
-		type: property.type.toString(),
+		type: property.type?.toString() || '',
 		default: property.default !== undefined ? settingValueToString(property.default) : '',
 		description: descriptionToString(property),
 	};
@@ -50,6 +50,6 @@ function settingValueToString(value: unknown) {
 }
 
 function descriptionToString(property: IConfigurationProperty) {
-	const descriptionStr = ln2br(mdln2br(property.markdownDescription || '')) || ln2br(property.description) || '';
+	const descriptionStr = ln2br(mdln2br(property.markdownDescription || '')) || ln2br(property.description || '') || '';
 	return extensionConfig.settings.truncateDescription === 0 ? descriptionStr : truncateString(descriptionStr, extensionConfig.settings.truncateDescription);
 }

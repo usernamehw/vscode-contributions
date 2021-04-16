@@ -23,9 +23,9 @@ export interface ICommand {
 }
 
 export interface IConfigurationProperty {
-	description: string;
+	description?: string;
 	markdownDescription?: string;
-	type: string[] | string;
+	type?: string[] | string;
 	default?: any;
 }
 
