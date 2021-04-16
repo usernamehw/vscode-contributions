@@ -22,8 +22,12 @@ export function getMarkdownTableOptions(): MarkdownTableOptions {
 	};
 }
 
+export function wrapIn(str: string, wrapper: string) {
+	return `${wrapper}${str}${wrapper}`;
+}
+
 export function wrapInBackticks(str: string) {
-	return `\`${str}\``;
+	return wrapIn(str, '`');
 }
 
 export function wrapInDetailsTag(text: string, header: string) {
