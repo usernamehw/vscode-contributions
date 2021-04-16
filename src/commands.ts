@@ -104,7 +104,7 @@ async function generateContributions(contributions: IExtensionContributions, pac
 			command.title,
 		])]);
 	let commonPrefix = '';
-	if (extensionConfig.settings.moveOutPrefix) {
+	if (extensionConfig.settings.moveOutPrefix && settings2.length) {
 		commonPrefix = findCommonPrefix(settings2.map(setting => setting.id));
 	}
 	let settingsTable = mdTable([
