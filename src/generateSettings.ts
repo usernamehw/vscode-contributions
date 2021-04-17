@@ -8,12 +8,12 @@ export function generateSettings(settingsContrib: NonNullable<IExtensionContribu
 	if (Array.isArray(settingsContrib)) {
 		for (const setting of settingsContrib) {
 			for (const key in setting.properties) {
-				settingItems.push(settingToString(key, setting.properties[key]));
+				settingItems.push(settingContribToSetting2(key, setting.properties[key]));
 			}
 		}
 	} else {
 		for (const key in settingsContrib.properties) {
-			settingItems.push(settingToString(key, settingsContrib.properties[key]));
+			settingItems.push(settingContribToSetting2(key, settingsContrib.properties[key]));
 		}
 	}
 
@@ -26,12 +26,23 @@ export interface Setting2 {
 	default: string;
 	description: string;
 }
-export function settingToString(key: string, property: IConfigurationProperty): Setting2 {
+export function settingContribToSetting2(key: string, property: IConfigurationProperty): Setting2 {
+	let id = key;
+	let description = contribToDescription(property);
+
+	if (description.toLocaleLowerCase().includes('paid')) {
+		id = `💲 ${id}`;
+	}
+
+	if (extensionConfig.settings.truncateDescription !== 0) {
+		description = truncateString(description, extensionConfig.settings.truncateDescription);
+	}
+
 	return {
-		id: key,
+		id,
 		type: property.type?.toString() || '',
 		default: property.default !== undefined ? settingValueToString(property.default) : '',
-		description: descriptionToString(property),
+		description,
 	};
 }
 function settingValueToString(value: unknown) {
@@ -48,8 +59,9 @@ function settingValueToString(value: unknown) {
 
 	return extensionConfig.settings.truncateDefaultValue === 0 ? settingValueStr : truncateString(settingValueStr, extensionConfig.settings.truncateDefaultValue);
 }
-
-function descriptionToString(property: IConfigurationProperty) {
-	const descriptionStr = ln2br(mdln2br(property.markdownDescription || '')) || ln2br(property.description || '') || '';
-	return extensionConfig.settings.truncateDescription === 0 ? descriptionStr : truncateString(descriptionStr, extensionConfig.settings.truncateDescription);
+/**
+ * `\n` will break markdown table.
+ */
+function contribToDescription(property: IConfigurationProperty) {
+	return ln2br(mdln2br(property.markdownDescription || '')) || ln2br(property.description || '') || '';
 }
