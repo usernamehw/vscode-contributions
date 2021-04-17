@@ -3,6 +3,7 @@ import { extensionConfig } from 'src/extension';
 import { mdTable } from 'src/extensionUtils';
 import { Color2, generateColors } from 'src/generateColors';
 import { Command2, generateCommands } from 'src/generateCommands';
+import { Dependency2, generateDependencies } from 'src/generateDependencies';
 import { generateSettings, Setting2 } from 'src/generateSettings';
 import { IExtensionContributions, IExtensionManifest } from 'src/types';
 import { findCommonPrefix, removeLastChar, removePrefix, wrapIn, wrapInDetailsTag } from 'src/utils';
@@ -13,12 +14,15 @@ const enum Constants {
 	'Settings' = 'Settings',
 	'Commands' = 'Commands',
 	'Colors' = 'Colors',
+	ExtensionDependencies = 'Extension Dependencies',
 	commandsStart = '<!-- COMMANDS_START -->',
 	commandsEnd = '<!-- COMMANDS_END -->',
 	settingsStart = '<!-- SETTINGS_START -->',
 	settingsEnd = '<!-- SETTINGS_END -->',
 	colorsStart = '<!-- COLORS_START -->',
 	colorsEnd = '<!-- COLORS_END -->',
+	dependenciesStart = '<!-- DEPENDENCIES_START -->',
+	dependenciesEnd = '<!-- DEPENDENCIES_END -->',
 	regexpAnything = '[\\s\\S]*?',
 }
 
@@ -63,11 +67,13 @@ async function generateContributions(contributions: IExtensionContributions, pac
 	const commands2: Command2[] = contributions.commands ? generateCommands(contributions.commands) : [];
 	const settings2: Setting2[] = contributions.configuration ? generateSettings(contributions.configuration) : [];
 	const colors2: Color2[] = contributions.colors ? generateColors(contributions.colors) : [];
+	const dependencies2: Dependency2[] = packageJSON.extensionDependencies?.length ? generateDependencies(packageJSON.extensionDependencies) : [];
 
 	if (extensionConfig.sort === 'alphabetical') {
 		commands2.sort((a, b) => a.id.localeCompare(b.id));
 		settings2.sort((a, b) => a.id.localeCompare(b.id));
 		colors2.sort((a, b) => a.id.localeCompare(b.id));
+		dependencies2.sort((a, b) => a.name.localeCompare(b.name));
 	}
 
 	let commandsTable = mdTable([
@@ -99,6 +105,13 @@ async function generateContributions(contributions: IExtensionContributions, pac
 			color.description,
 		]),
 	]);
+	let dependenciesTable = mdTable([
+		['Extension Name', 'Description'],
+		...dependencies2.map(dep => [
+			dep.name,
+			dep.description,
+		]),
+	]);
 
 	if (extensionConfig.settings.moveOutPrefix) {
 		settingsTable = `> **${packageJSON.displayName || packageJSON.name}** extension settings start with \`${commonPrefix}\`\n\n${settingsTable}`;
@@ -108,11 +121,13 @@ async function generateContributions(contributions: IExtensionContributions, pac
 		commandsTable = wrapInDetailsTag(commandsTable, Constants.Commands);
 		settingsTable = wrapInDetailsTag(settingsTable, Constants.Settings);
 		colorsTable = wrapInDetailsTag(colorsTable, Constants.Colors);
+		dependenciesTable = wrapInDetailsTag(dependenciesTable, Constants.ExtensionDependencies);
 	}
 
 	commandsTable = commands2.length ? `## ${Constants.Commands} (${commands2.length})\n\n${commandsTable}\n\n` : '';
 	settingsTable = settings2.length ? `## ${Constants.Settings} (${settings2.length})\n\n${settingsTable}\n\n` : '';
 	colorsTable = colors2.length ? `## ${Constants.Colors} (${colors2.length})\n\n${colorsTable}\n\n` : '';
+	dependenciesTable = dependencies2.length ? `## ${Constants.ExtensionDependencies} (${dependencies2.length})\n\n${dependenciesTable}\n\n` : '';
 
 	if (!shouldOpenUntitled) {
 		const reamdeFiles = await workspace.findFiles('README.md');
@@ -138,6 +153,7 @@ async function generateContributions(contributions: IExtensionContributions, pac
 		const newCommandsContent = commands2.length ? `${Constants.commandsStart}\n${removeLastChar(commandsTable)}${Constants.commandsEnd}` : '';
 		const newSettingsContent = settings2.length ? `${Constants.settingsStart}\n${removeLastChar(settingsTable)}${Constants.settingsEnd}` : '';
 		const newColorsContent = colors2.length ? `${Constants.colorsStart}\n${removeLastChar(colorsTable)}${Constants.colorsEnd}` : '';
+		const newDependenciesContent = dependencies2.length ? `${Constants.dependenciesStart}\n${removeLastChar(dependenciesTable)}${Constants.dependenciesEnd}` : '';
 
 		const commandsRegexp = new RegExp(`${Constants.commandsStart}${Constants.regexpAnything}${Constants.commandsEnd}`);
 		if (!commandsRegexp.test(readmeContent)) {
@@ -157,14 +173,20 @@ async function generateContributions(contributions: IExtensionContributions, pac
 		} else {
 			readmeContent = readmeContent.replace(colorsRegexp, newColorsContent);
 		}
+		const dependenciesRegexp = new RegExp(`${Constants.dependenciesStart}${Constants.regexpAnything}${Constants.dependenciesEnd}`);
+		if (!dependenciesRegexp.test(readmeContent)) {
+			readmeContent = `${readmeContent}\n\n${newDependenciesContent}`;
+		} else {
+			readmeContent = readmeContent.replace(dependenciesRegexp, newDependenciesContent);
+		}
 
-		fs.writeFile(readmeUri.fsPath, readmeContent, err => {
+		fs.writeFile(readmeUri.fsPath, readmeContent.trim(), err => {
 			if (err) {
 				window.showErrorMessage(err.message);
 			}
 		});
 	} else {
-		openInUntitled(commandsTable + settingsTable + colorsTable, 'markdown');
+		openInUntitled((commandsTable + settingsTable + colorsTable + dependenciesTable).trim(), 'markdown');
 	}
 }
 
