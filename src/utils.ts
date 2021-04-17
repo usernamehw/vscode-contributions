@@ -23,12 +23,6 @@ export function wrapIn(str: string, wrapper: string) {
 	return `${wrapper}${str}${wrapper}`;
 }
 /**
- * Wrap string in backticks.
- */
-export function wrapInBackticks(str: string) {
-	return wrapIn(str, '`');
-}
-/**
  * Wrap content in `<details>`/`<summary>` tags
  */
 export function wrapInDetailsTag(text: string, header: string) {
@@ -39,10 +33,22 @@ ${text}
 </details>`;
 }
 /**
- * Replace all `|` with `\|`
+ * Replace all `|` with `\|` (but not if it's an inline code (inside backticks))
  */
 export function escapeVerticalBar(str: string) {
-	return str.replace(/\|/g, '\\|');
+	let inlineCode = false;
+	let resultStr = '';
+	for (const char of str) {
+		if (char === '`') {
+			inlineCode = !inlineCode;
+		}
+		if (char === '|' && !inlineCode) {
+			resultStr += '\\|';
+		} else {
+			resultStr += char;
+		}
+	}
+	return resultStr;
 }
 /**
  * Remove prefix from the string.

@@ -1,6 +1,6 @@
 import { extensionConfig } from 'src/extension';
 import { IConfigurationProperty, IExtensionContributions } from 'src/types';
-import { ln2br, mdln2br, truncateString, wrapIn, wrapInBackticks } from 'src/utils';
+import { ln2br, mdln2br, truncateString, wrapIn } from 'src/utils';
 
 export function generateSettings(settingsContrib: NonNullable<IExtensionContributions['configuration']>) {
 	const settingItems: Setting2[] = [];
@@ -48,13 +48,13 @@ export function settingContribToSetting2(key: string, property: IConfigurationPr
 function settingValueToString(value: unknown) {
 	let settingValueStr = '';
 	if (typeof value === 'string') {
-		settingValueStr = wrapInBackticks(wrapIn(value, '"'));
+		settingValueStr = wrapIn(value, '"');
 	} else if (typeof value === 'number' || typeof value === 'boolean' || value === null) {
 		settingValueStr = wrapIn(String(value), '**');
 	} else if (Array.isArray(value) || typeof value === 'object') {
-		settingValueStr = wrapIn(JSON.stringify(value), '`');
+		settingValueStr = JSON.stringify(value);
 	} else {
-		settingValueStr = wrapIn(String(value), '`');
+		settingValueStr = String(value);
 	}
 
 	return extensionConfig.settings.truncateDefaultValue === 0 ? settingValueStr : truncateString(settingValueStr, extensionConfig.settings.truncateDefaultValue);

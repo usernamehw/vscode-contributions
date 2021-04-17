@@ -5,7 +5,7 @@ import { Color2, generateColors } from 'src/generateColors';
 import { Command2, generateCommands } from 'src/generateCommands';
 import { generateSettings, Setting2 } from 'src/generateSettings';
 import { IExtensionContributions, IExtensionManifest } from 'src/types';
-import { findCommonPrefix, removeLastChar, removePrefix, wrapInBackticks, wrapInDetailsTag } from 'src/utils';
+import { findCommonPrefix, removeLastChar, removePrefix, wrapIn, wrapInDetailsTag } from 'src/utils';
 import { openInUntitled } from 'src/vscodeUtils';
 import { commands, Disposable, extensions, QuickPickItem, Uri, window, workspace } from 'vscode';
 
@@ -120,9 +120,9 @@ async function generateContributions(contributions: IExtensionContributions, pac
 		['Color', 'Dark', 'Light', 'HC', 'Description'],
 		...colors2.map(color => [
 			color.id,
-			wrapInBackticks(color.dark),
-			wrapInBackticks(color.light),
-			wrapInBackticks(color.hc),
+			wrapIn(color.dark, '`'),
+			wrapIn(color.light, '`'),
+			wrapIn(color.hc, '`'),
 			color.description,
 		]),
 	]);
