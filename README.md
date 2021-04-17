@@ -11,11 +11,12 @@ Generate VSCode extension contribution tables, like below:
 <!-- COMMANDS_END -->
 
 <!-- SETTINGS_START -->
-## Settings (8)
+## Settings (9)
 
 |Setting|Type|Default|Description|
 |-|-|-|-|
 |contributions.sort|string|"default"|How to sort items in a table.|
+|contributions.doOnCompletion|string|"showNotification"|What to do on finishing editing README file (after running `contributions.generate` command).|
 |contributions.addStartEndDelimiters|boolean|**true**|Add start and end delimiters to the table.|
 |contributions.alignDelimiters|boolean|**false**|Make pretty table. (Not pretty if the table is big)|
 |contributions.addPadding|boolean|**false**|Add whitespaces between delimiters and content.|

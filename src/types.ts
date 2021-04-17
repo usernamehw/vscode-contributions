@@ -1,5 +1,6 @@
 export interface ExtensionConfig {
 	sort: 'alphabetical' | 'default';
+	doOnCompletion: 'nothing' | 'openReadmeFile' | 'showNotification';
 	wrapInDetailsTag: boolean;
 	alignDelimiters: boolean;
 	addPadding: boolean;

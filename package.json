@@ -59,6 +59,16 @@
 					],
 					"default": "default"
 				},
+				"contributions.doOnCompletion": {
+					"type": "string",
+					"description": "What to do on finishing editing README file (after running `contributions.generate` command).",
+					"enum": [
+						"showNotification",
+						"openReadmeFile",
+						"nothing"
+					],
+					"default": "showNotification"
+				},
 				"contributions.addStartEndDelimiters": {
 					"type": "boolean",
 					"description": "Add start and end delimiters to the table.",

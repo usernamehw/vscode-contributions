@@ -7,7 +7,7 @@ import { Dependency2, generateDependencies } from 'src/generateDependencies';
 import { generateSettings, Setting2 } from 'src/generateSettings';
 import { IExtensionContributions, IExtensionManifest } from 'src/types';
 import { findCommonPrefix, removeLastChar, removePrefix, wrapIn, wrapInDetailsTag } from 'src/utils';
-import { openInUntitled } from 'src/vscodeUtils';
+import { openInEditor, openInUntitled } from 'src/vscodeUtils';
 import { commands, Disposable, extensions, QuickPickItem, Uri, window, workspace } from 'vscode';
 
 const enum Constants {
@@ -186,9 +186,20 @@ async function generateContributions(contributions: IExtensionContributions, pac
 			readmeContent = readmeContent.replace(dependenciesRegexp, newDependenciesContent);
 		}
 
-		fs.writeFile(readmeUri.fsPath, readmeContent.trim(), err => {
+		fs.writeFile(readmeUri.fsPath, readmeContent.trim(), async err => {
 			if (err) {
 				window.showErrorMessage(err.message);
+			}
+			if (extensionConfig.doOnCompletion === 'openReadmeFile') {
+				openInEditor(readmeUri);
+			} else if (extensionConfig.doOnCompletion === 'showNotification') {
+				const openBtn = 'Open README';
+				const pressed = await window.showInformationMessage('✅  Done', openBtn);
+				if (pressed === openBtn) {
+					openInEditor(readmeUri);
+				}
+			} else {
+				//
 			}
 		});
 	} else {
