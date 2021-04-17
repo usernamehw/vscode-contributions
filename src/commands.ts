@@ -49,7 +49,10 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 			detail: ext.id,
 		}));
 
-		const picked = await window.showQuickPick(itemsForQuickPick);
+		const picked = await window.showQuickPick(itemsForQuickPick, {
+			matchOnDescription: true,
+			matchOnDetail: true,
+		});
 		if (!picked) {
 			return;
 		}
@@ -141,7 +144,10 @@ async function generateContributions(contributions: IExtensionContributions, pac
 				label: uri.fsPath,
 			}));
 
-			const picked = await window.showQuickPick(itemsForQuickPick);
+			const picked = await window.showQuickPick(itemsForQuickPick, {
+				matchOnDescription: true,
+				matchOnDetail: true,
+			});
 			if (!picked) {
 				return;
 			}
