@@ -2,7 +2,7 @@
 	"name": "contributions",
 	"displayName": "Contributions",
 	"description": "Generate vscode extension contributions table.",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"publisher": "usernamehw",
 	"license": "MIT",
 	"engines": {
