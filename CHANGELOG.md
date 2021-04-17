@@ -1,3 +1,9 @@
+## 0.0.4 `17 Apr 2021`
+
+- ✨ Insert 💲 emoji for settings with `paid` word
+- ✨ Add extension dependencies table generation
+- ✨ Use separate command for generating tables into an Untitled file
+
 ## 0.0.3 `16 Apr 2021`
 
 - 🐛 Wrap strings in backticks
