@@ -24,6 +24,7 @@
 	},
 	"activationEvents": [
 		"onCommand:contributions.generate",
+		"onCommand:contributions.generateUntitled",
 		"onCommand:contributions.generateForInstalled"
 	],
 	"main": "./dist/extension",
@@ -31,11 +32,15 @@
 		"commands": [
 			{
 				"command": "contributions.generate",
-				"title": "Generate contributions."
+				"title": "Generate contributions -> Insert into README"
+			},
+			{
+				"command": "contributions.generateUntitled",
+				"title": "Generate contributions -> Open Untitled"
 			},
 			{
 				"command": "contributions.generateForInstalled",
-				"title": "Generate contributions for installed extension."
+				"title": "Generate contributions for installed extension -> Open Untitled"
 			}
 		],
 		"configuration": {
@@ -72,11 +77,6 @@
 					"type": "boolean",
 					"markdownDescription": "Warp tables in `<details>` tag to look collapsed by default.",
 					"default": false
-				},
-				"contributions.autoInsertIntoREADME": {
-					"type": "boolean",
-					"description": "On generating a table - insert it into the README file instead of opening an Untitled file.",
-					"default": true
 				},
 				"contributions.settings.moveOutPrefix": {
 					"type": "boolean",

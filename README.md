@@ -1,16 +1,17 @@
 Generate VSCode extension contribution tables, like below:
 
 <!-- COMMANDS_START -->
-## Commands (2)
+## Commands (3)
 
 |Command|Description|
 |-|-|
-|contributions.generate|Generate contributions.|
-|contributions.generateForInstalled|Generate contributions for installed extension.|
+|contributions.generate|Generate contributions -> Insert into README|
+|contributions.generateUntitled|Generate contributions -> Open Untitled|
+|contributions.generateForInstalled|Generate contributions for installed extension -> Open Untitled|
 <!-- COMMANDS_END -->
 
 <!-- SETTINGS_START -->
-## Settings (9)
+## Settings (8)
 
 > **Contributions** extension settings start with `contributions.`
 
@@ -21,7 +22,6 @@ Generate VSCode extension contribution tables, like below:
 |alignDelimiters|boolean|**false**|Make pretty table. (Not pretty if the table is big)|
 |addPadding|boolean|**false**|Add whitespaces between delimiters and content.|
 |wrapInDetailsTag|boolean|**false**|Warp tables in `<details>` tag to look collapsed by default.|
-|autoInsertIntoREADME|boolean|**true**|On generating a table - insert it into the README file instead of opening an Untitled file.|
 |settings.moveOutPrefix|boolean|**false**|Move common extension prefix from the first settings table column. (VSMarketplace has bad rendering for wide tables).|
 |settings.truncateDefaultValue|integer|**0**|Truncate default value if it's bigger than this setting. (0 to disable).|
 |settings.truncateDescription|integer|**0**|Truncate description if it's bigger than this setting. (0 to disable).|
