@@ -94,6 +94,11 @@
 					"description": "Move common extension prefix from the first settings table column. (VSMarketplace has bad rendering for wide tables).",
 					"default": false
 				},
+				"contributions.settings.includeTypes": {
+					"type": "boolean",
+					"markdownDescription": "Whether to include setting `type` column or not.",
+					"default": true
+				},
 				"contributions.settings.truncateDefaultValue": {
 					"type": "integer",
 					"description": "Truncate default value if it's bigger than this setting. (0 to disable).",

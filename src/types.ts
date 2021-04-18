@@ -8,6 +8,7 @@ export interface ExtensionConfig {
 
 	settings: {
 		moveOutPrefix: boolean;
+		includeTypes: boolean;
 		truncateDefaultValue: number;
 		truncateDescription: number;
 	};

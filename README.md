@@ -11,7 +11,7 @@ Generate VSCode extension contribution tables, like below:
 <!-- COMMANDS_END -->
 
 <!-- SETTINGS_START -->
-## Settings (9)
+## Settings (10)
 
 |Setting|Type|Default|Description|
 |-|-|-|-|
@@ -22,6 +22,7 @@ Generate VSCode extension contribution tables, like below:
 |contributions.addPadding|boolean|**false**|Add whitespaces between delimiters and content.|
 |contributions.wrapInDetailsTag|boolean|**false**|Warp tables in `<details>` tag to look collapsed by default.|
 |contributions.settings.moveOutPrefix|boolean|**false**|Move common extension prefix from the first settings table column. (VSMarketplace has bad rendering for wide tables).|
+|contributions.settings.includeTypes|boolean|**true**|Whether to include setting `type` column or not.|
 |contributions.settings.truncateDefaultValue|integer|**0**|Truncate default value if it's bigger than this setting. (0 to disable).|
 |contributions.settings.truncateDescription|integer|**0**|Truncate description if it's bigger than this setting. (0 to disable).|
 <!-- SETTINGS_END -->

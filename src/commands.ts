@@ -89,15 +89,27 @@ async function generateContributions(contributions: IExtensionContributions, pac
 	if (extensionConfig.settings.moveOutPrefix && settings2.length) {
 		commonPrefix = findCommonPrefix(settings2.map(setting => setting.id));
 	}
-	let settingsTable = mdTable([
-		['Setting', 'Type', 'Default', 'Description'],
-		...settings2.map(item => [
-			extensionConfig.settings.moveOutPrefix ? removePrefix(item.id, commonPrefix) : item.id,
-			item.type,
-			item.default,
-			item.description,
-		]),
-	]);
+	let settingsTable;
+	if (extensionConfig.settings.includeTypes) {
+		settingsTable = mdTable([
+			['Setting', 'Type', 'Default', 'Description'],
+			...settings2.map(item => [
+				extensionConfig.settings.moveOutPrefix ? removePrefix(item.id, commonPrefix) : item.id,
+				item.type,
+				item.default,
+				item.description,
+			]),
+		]);
+	} else {
+		settingsTable = mdTable([
+			['Setting', 'Default', 'Description'],
+			...settings2.map(item => [
+				extensionConfig.settings.moveOutPrefix ? removePrefix(item.id, commonPrefix) : item.id,
+				item.default,
+				item.description,
+			]),
+		]);
+	}
 	let colorsTable = mdTable([
 		['Color', 'Dark', 'Light', 'HC', 'Description'],
 		...colors2.map(color => [
