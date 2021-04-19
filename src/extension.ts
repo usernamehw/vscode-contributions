@@ -25,7 +25,7 @@ export function activate(extensionContext: ExtensionContext) {
 		updateEverything();
 	}
 
-	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(onConfigChange));
+	workspace.onDidChangeConfiguration(onConfigChange);
 }
 
 function disposeEverything() {
