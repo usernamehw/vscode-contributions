@@ -112,6 +112,22 @@
 					"default": 0,
 					"minimum": 0,
 					"maximum": 500
+				},
+				"contributions.settings.excludeById": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"markdownDescription": "Exclude settings from generation (by setting key).",
+					"default": []
+				},
+				"contributions.commands.excludeById": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"markdownDescription": "Exclude commands from generation (by `command` property).",
+					"default": []
 				}
 			}
 		}

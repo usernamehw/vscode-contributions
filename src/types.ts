@@ -6,7 +6,11 @@ export interface ExtensionConfig {
 	addPadding: boolean;
 	addStartEndDelimiters: boolean;
 
+	commands: {
+		excludeById: string[];
+	};
 	settings: {
+		excludeById: string[];
 		moveOutPrefix: boolean;
 		includeTypes: boolean;
 		truncateDefaultValue: number;

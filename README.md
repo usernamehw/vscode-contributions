@@ -11,7 +11,7 @@ Generate VSCode extension contribution tables, like below:
 <!-- COMMANDS_END -->
 
 <!-- SETTINGS_START -->
-## Settings (10)
+## Settings (12)
 
 |Setting|Type|Default|Description|
 |-|-|-|-|
@@ -25,4 +25,6 @@ Generate VSCode extension contribution tables, like below:
 |contributions.settings.includeTypes|boolean|**true**|Whether to include setting `type` column or not.|
 |contributions.settings.truncateDefaultValue|integer|**0**|Truncate default value if it's bigger than this setting. (0 to disable).|
 |contributions.settings.truncateDescription|integer|**0**|Truncate description if it's bigger than this setting. (0 to disable).|
+|contributions.settings.excludeById|array|[]|Exclude settings from generation (by setting key).|
+|contributions.commands.excludeById|array|[]|Exclude commands from generation (by `command` property).|
 <!-- SETTINGS_END -->

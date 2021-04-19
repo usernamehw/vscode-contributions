@@ -1,22 +1,27 @@
 import { extensionConfig } from 'src/extension';
-import { IConfigurationProperty, IExtensionContributions } from 'src/types';
+import { IConfiguration, IConfigurationProperty, IExtensionContributions } from 'src/types';
 import { ln2br, mdln2br, truncateString, wrapIn } from 'src/utils';
 
 export function generateSettings(settingsContrib: NonNullable<IExtensionContributions['configuration']>) {
 	const settingItems: Setting2[] = [];
-
 	if (Array.isArray(settingsContrib)) {
 		for (const setting of settingsContrib) {
-			for (const key in setting.properties) {
-				settingItems.push(settingContribToSetting2(key, setting.properties[key]));
-			}
+			settingItems.push(...settingsPropertiesToSetting2(setting.properties));
 		}
 	} else {
-		for (const key in settingsContrib.properties) {
-			settingItems.push(settingContribToSetting2(key, settingsContrib.properties[key]));
-		}
+		settingItems.push(...settingsPropertiesToSetting2(settingsContrib.properties));
 	}
+	return settingItems;
+}
 
+function settingsPropertiesToSetting2(properties: IConfiguration['properties']) {
+	const settingItems = [];
+	for (const key in properties) {
+		if (extensionConfig.settings.excludeById.includes(key)) {
+			continue;
+		}
+		settingItems.push(settingContribToSetting2(key, properties[key]));
+	}
 	return settingItems;
 }
 
