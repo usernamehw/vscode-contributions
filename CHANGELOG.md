@@ -1,3 +1,9 @@
+## 0.0.5 `19 Apr 2021`
+
+- ✨ Setting to exclude commands/settings from generation
+- ✨ Setting to remove `type` column at setting table
+- ✨ Show notification after generating
+
 ## 0.0.4 `17 Apr 2021`
 
 - ✨ Insert 💲 emoji for settings with `paid` word
