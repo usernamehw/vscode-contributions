@@ -33,22 +33,10 @@ ${text}
 </details>`;
 }
 /**
- * Replace all `|` with `\|` (but not if it's an inline code (inside backticks))
+ * Replace all `|` with `\|`
  */
 export function escapeVerticalBar(str: string) {
-	let inlineCode = false;
-	let resultStr = '';
-	for (const char of str) {
-		if (char === '`') {
-			inlineCode = !inlineCode;
-		}
-		if (char === '|' && !inlineCode) {
-			resultStr += '\\|';
-		} else {
-			resultStr += char;
-		}
-	}
-	return resultStr;
+	return str.replace(/\|/g, '\\|');
 }
 /**
  * Remove prefix from the string.
