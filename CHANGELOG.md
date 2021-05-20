@@ -1,3 +1,7 @@
+## 0.0.6 `20 May 2021`
+
+- ✨ Generate snippets
+
 ## 0.0.5 `19 Apr 2021`
 
 - ✨ Setting to exclude commands/settings from generation
