@@ -128,6 +128,11 @@
 					},
 					"markdownDescription": "Exclude commands from generation (by `command` property).",
 					"default": []
+				},
+				"contributions.snippets.includeBody": {
+					"type": "boolean",
+					"markdownDescription": "Whether to include snippet `body` column or not.",
+					"default": true
 				}
 			}
 		}
@@ -151,6 +156,7 @@
 		"webpack-cli": "^4.6.0"
 	},
 	"dependencies": {
+		"jsonc-parser": "^3.0.0",
 		"markdown-table": "^3.0.0"
 	}
 }

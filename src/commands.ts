@@ -1,10 +1,12 @@
 import fs from 'fs';
+import path from 'path';
 import { extensionConfig } from 'src/extension';
 import { mdTable } from 'src/extensionUtils';
 import { Color2, generateColors } from 'src/generateColors';
 import { Command2, generateCommands } from 'src/generateCommands';
 import { Dependency2, generateDependencies } from 'src/generateDependencies';
 import { generateSettings, Setting2 } from 'src/generateSettings';
+import { generateSnippets, Snippet2 } from 'src/generateSnippets';
 import { IExtensionContributions, IExtensionManifest } from 'src/types';
 import { findCommonPrefix, removeLastChar, removePrefix, wrapIn, wrapInDetailsTag } from 'src/utils';
 import { openInEditor, openInUntitled } from 'src/vscodeUtils';
@@ -13,12 +15,15 @@ import { commands, Disposable, extensions, QuickPickItem, Uri, window, workspace
 const enum Constants {
 	'Settings' = 'Settings',
 	'Commands' = 'Commands',
+	'Snippets' = 'Snippets',
 	'Colors' = 'Colors',
 	ExtensionDependencies = 'Extension Dependencies',
 	commandsStart = '<!-- COMMANDS_START -->',
 	commandsEnd = '<!-- COMMANDS_END -->',
 	settingsStart = '<!-- SETTINGS_START -->',
 	settingsEnd = '<!-- SETTINGS_END -->',
+	snippetsStart = '<!-- SNIPPETS_START -->',
+	snippetsEnd = '<!-- SNIPPETS_END -->',
 	colorsStart = '<!-- COLORS_START -->',
 	colorsEnd = '<!-- COLORS_END -->',
 	dependenciesStart = '<!-- DEPENDENCIES_START -->',
@@ -32,7 +37,7 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 		if (!contributions) {
 			return;
 		}
-		generateContributions(contributions.contributes, contributions.parsedJson, false);
+		generateContributions(contributions.contributes, contributions.parsedJson, path.join(contributions.targetPackageJsonPath, '..'), false);
 	}));
 	// ──────────────────────────────────────────────────────────────────────
 	subscriptions.push(commands.registerCommand('contributions.generateUntitled', async () => {
@@ -40,7 +45,7 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 		if (!contributions) {
 			return;
 		}
-		generateContributions(contributions.contributes, contributions.parsedJson, true);
+		generateContributions(contributions.contributes, contributions.parsedJson, path.join(contributions.targetPackageJsonPath, '..'), true);
 	}));
 	// ──────────────────────────────────────────────────────────────────────
 	subscriptions.push(commands.registerCommand('contributions.generateForInstalled', async () => {
@@ -60,22 +65,24 @@ export function registerAllCommands(subscriptions: Disposable[]) {
 		const pickedExtension = extensions.getExtension(picked.detail!);
 		const contributions = (pickedExtension?.packageJSON as IExtensionManifest).contributes;
 
-		if (contributions) {
-			generateContributions(contributions, pickedExtension?.packageJSON, true);
+		if (pickedExtension && contributions) {
+			generateContributions(contributions, pickedExtension?.packageJSON, pickedExtension.extensionPath, true);
 		}
 	}));
 }
 
-async function generateContributions(contributions: IExtensionContributions, packageJSON: IExtensionManifest, shouldOpenUntitled: boolean) {
+async function generateContributions(contributions: IExtensionContributions, packageJSON: IExtensionManifest, rootPackagePath: string, shouldOpenUntitled: boolean) {
 	const commands2: Command2[] = contributions.commands ? generateCommands(contributions.commands) : [];
 	const settings2: Setting2[] = contributions.configuration ? generateSettings(contributions.configuration) : [];
 	const colors2: Color2[] = contributions.colors ? generateColors(contributions.colors) : [];
+	const snippets2: Snippet2[] = contributions.snippets ? generateSnippets(contributions.snippets, rootPackagePath) : [];
 	const dependencies2: Dependency2[] = packageJSON.extensionDependencies?.length ? generateDependencies(packageJSON.extensionDependencies) : [];
 
 	if (extensionConfig.sort === 'alphabetical') {
 		commands2.sort((a, b) => a.id.localeCompare(b.id));
 		settings2.sort((a, b) => a.id.localeCompare(b.id));
 		colors2.sort((a, b) => a.id.localeCompare(b.id));
+		snippets2.sort((a, b) => a.prefix.localeCompare(b.prefix));
 		dependencies2.sort((a, b) => a.name.localeCompare(b.name));
 	}
 
@@ -110,6 +117,25 @@ async function generateContributions(contributions: IExtensionContributions, pac
 			]),
 		]);
 	}
+	let snippetsTable;
+	if (extensionConfig.snippets.includeBody) {
+		snippetsTable = mdTable([
+			['Prefix', 'Body', 'Description'],
+			...snippets2.map(snippet => [
+				snippet.prefix,
+				snippet.body,
+				snippet.description,
+			]),
+		]);
+	} else {
+		snippetsTable = mdTable([
+			['Prefix', 'Description'],
+			...snippets2.map(snippet => [
+				snippet.prefix,
+				snippet.description,
+			]),
+		]);
+	}
 	let colorsTable = mdTable([
 		['Color', 'Dark', 'Light', 'HC', 'Description'],
 		...colors2.map(color => [
@@ -135,12 +161,14 @@ async function generateContributions(contributions: IExtensionContributions, pac
 	if (extensionConfig.wrapInDetailsTag) {
 		commandsTable = wrapInDetailsTag(commandsTable, Constants.Commands);
 		settingsTable = wrapInDetailsTag(settingsTable, Constants.Settings);
+		snippetsTable = wrapInDetailsTag(snippetsTable, Constants.Snippets);
 		colorsTable = wrapInDetailsTag(colorsTable, Constants.Colors);
 		dependenciesTable = wrapInDetailsTag(dependenciesTable, Constants.ExtensionDependencies);
 	}
 
 	commandsTable = commands2.length ? `## ${Constants.Commands} (${commands2.length})\n\n${commandsTable}\n\n` : '';
 	settingsTable = settings2.length ? `## ${Constants.Settings} (${settings2.length})\n\n${settingsTable}\n\n` : '';
+	snippetsTable = snippets2.length ? `## ${Constants.Snippets} (${snippets2.length})\n\n${snippetsTable}\n\n` : '';
 	colorsTable = colors2.length ? `## ${Constants.Colors} (${colors2.length})\n\n${colorsTable}\n\n` : '';
 	dependenciesTable = dependencies2.length ? `## ${Constants.ExtensionDependencies} (${dependencies2.length})\n\n${dependenciesTable}\n\n` : '';
 
@@ -170,6 +198,7 @@ async function generateContributions(contributions: IExtensionContributions, pac
 
 		const newCommandsContent = commands2.length ? `${Constants.commandsStart}\n${removeLastChar(commandsTable)}${Constants.commandsEnd}` : '';
 		const newSettingsContent = settings2.length ? `${Constants.settingsStart}\n${removeLastChar(settingsTable)}${Constants.settingsEnd}` : '';
+		const newSnippetsContent = snippets2.length ? `${Constants.snippetsStart}\n${removeLastChar(snippetsTable)}${Constants.snippetsEnd}` : '';
 		const newColorsContent = colors2.length ? `${Constants.colorsStart}\n${removeLastChar(colorsTable)}${Constants.colorsEnd}` : '';
 		const newDependenciesContent = dependencies2.length ? `${Constants.dependenciesStart}\n${removeLastChar(dependenciesTable)}${Constants.dependenciesEnd}` : '';
 
@@ -184,6 +213,12 @@ async function generateContributions(contributions: IExtensionContributions, pac
 			readmeContent = `${readmeContent}\n\n${newSettingsContent}`;
 		} else {
 			readmeContent = readmeContent.replace(settingsRegexp, newSettingsContent);
+		}
+		const snippetsRegexp = new RegExp(`${Constants.snippetsStart}${Constants.regexpAnything}${Constants.snippetsEnd}`);
+		if (!snippetsRegexp.test(readmeContent)) {
+			readmeContent = `${readmeContent}\n\n${newSnippetsContent}`;
+		} else {
+			readmeContent = readmeContent.replace(snippetsRegexp, newSnippetsContent);
 		}
 		const colorsRegexp = new RegExp(`${Constants.colorsStart}${Constants.regexpAnything}${Constants.colorsEnd}`);
 		if (!colorsRegexp.test(readmeContent)) {
@@ -210,12 +245,10 @@ async function generateContributions(contributions: IExtensionContributions, pac
 				if (pressed === openBtn) {
 					openInEditor(readmeUri);
 				}
-			} else {
-				//
 			}
 		});
 	} else {
-		openInUntitled((commandsTable + settingsTable + colorsTable + dependenciesTable).trim(), 'markdown');
+		openInUntitled((commandsTable + settingsTable + snippetsTable + colorsTable + dependenciesTable).trim(), 'markdown');
 	}
 }
 
@@ -262,5 +295,6 @@ async function findContributions() {
 	return {
 		contributes,
 		parsedJson,
+		targetPackageJsonPath,
 	};
 }

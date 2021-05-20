@@ -9,6 +9,9 @@ export interface ExtensionConfig {
 	commands: {
 		excludeById: string[];
 	};
+	snippets: {
+		includeBody: boolean;
+	};
 	settings: {
 		excludeById: string[];
 		moveOutPrefix: boolean;
@@ -77,6 +80,7 @@ export interface IMenu {
 
 export interface ISnippet {
 	language: string;
+	path: string;
 }
 
 export interface ITheme {
