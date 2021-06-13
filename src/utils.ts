@@ -35,8 +35,10 @@ ${text}
 /**
  * Replace all `|` with `\|`
  */
-export function escapeVerticalBar(str: string) {
-	return str.replace(/\|/g, '\\|');
+export function escapeVerticalBar(str = '') {
+	return str
+		.replace(/\|/g, '\\|');
+	// .replace(/</g, '\\<');
 }
 /**
  * Remove prefix from the string.

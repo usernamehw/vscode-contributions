@@ -26,7 +26,8 @@
 	"activationEvents": [
 		"onCommand:contributions.generate",
 		"onCommand:contributions.generateUntitled",
-		"onCommand:contributions.generateForInstalled"
+		"onCommand:contributions.generateForInstalled",
+		"onCommand:contributions.generateForAllInstalled"
 	],
 	"main": "./dist/extension",
 	"contributes": {
@@ -42,6 +43,10 @@
 			{
 				"command": "contributions.generateForInstalled",
 				"title": "Generate contributions for installed extension -> Open Untitled"
+			},
+			{
+				"command": "contributions.generateForAllInstalled",
+				"title": "Generate contributions for ALL installed extensions -> Open Untitled"
 			}
 		],
 		"configuration": {
