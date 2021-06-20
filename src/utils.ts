@@ -40,13 +40,13 @@ ${text}
 export function escapeVerticalBar(str = '') {
 	return str.replace(/\|/g, '\\|');
 }
+/**
+ * Escape all markdown special characters.
+ */
 export function escapeMarkdown(str = '') {
 	const md = new MarkdownString();
 	md.appendText(str);
 	return md.value;
-}
-export function escapeBackticks(str = '') {
-	return str.replace(/`/g, '\\`');
 }
 /**
  * Remove prefix from the string.

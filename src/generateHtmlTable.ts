@@ -1,5 +1,8 @@
 import { Snippet2 } from 'src/generateSnippets';
 
+/**
+ * Generate snippets table as html (snippet body with syntax highlighting)
+ */
 export function generateSnippetsHtmlTable(snippets: Snippet2[]) {
 	let tableStr = '<table>';
 	tableStr += '<tr>';
