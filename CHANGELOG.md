@@ -1,3 +1,10 @@
+## 0.0.7 `20 Jun 2021`
+
+- ✨ Generate contributions for all installed extensions
+- ✨ Generate snippets table as html
+- 🐛 Escape settings default value
+- 🐛 Escape non-markdown settings description
+
 ## 0.0.6 `20 May 2021`
 
 - ✨ Generate snippets
