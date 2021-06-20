@@ -1,6 +1,7 @@
 import { extensionConfig } from 'src/extension';
 import { IConfiguration, IConfigurationProperty, IExtensionContributions } from 'src/types';
 import { escapeMarkdown, ln2br, mdln2br, truncateString, wrapIn } from 'src/utils';
+import escape from 'lodash/escape';
 
 export function generateSettings(settingsContrib: NonNullable<IExtensionContributions['configuration']>) {
 	const settingItems: Setting2[] = [];
@@ -68,5 +69,5 @@ function settingValueToString(value: unknown) {
  * `\n` will break markdown table.
  */
 function contribToDescription(property: IConfigurationProperty) {
-	return ln2br(mdln2br(property.markdownDescription || '')) || ln2br(property.description || '') || '';
+	return ln2br(mdln2br(property.markdownDescription || '')) || ln2br(escape(property.description) || '') || '';
 }
