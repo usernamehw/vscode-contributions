@@ -1,6 +1,6 @@
 import { extensionConfig } from 'src/extension';
 import { IConfiguration, IConfigurationProperty, IExtensionContributions } from 'src/types';
-import { ln2br, mdln2br, truncateString, wrapIn } from 'src/utils';
+import { escapeMarkdown, ln2br, mdln2br, truncateString, wrapIn } from 'src/utils';
 
 export function generateSettings(settingsContrib: NonNullable<IExtensionContributions['configuration']>) {
 	const settingItems: Setting2[] = [];
@@ -53,11 +53,11 @@ export function settingContribToSetting2(key: string, property: IConfigurationPr
 function settingValueToString(value: unknown) {
 	let settingValueStr = '';
 	if (typeof value === 'string') {
-		settingValueStr = wrapIn(value, '"');
+		settingValueStr = wrapIn(escapeMarkdown(value), '"');
 	} else if (typeof value === 'number' || typeof value === 'boolean' || value === null) {
 		settingValueStr = wrapIn(String(value), '**');
 	} else if (Array.isArray(value) || typeof value === 'object') {
-		settingValueStr = JSON.stringify(value);
+		settingValueStr = escapeMarkdown(JSON.stringify(value));
 	} else {
 		settingValueStr = String(value);
 	}

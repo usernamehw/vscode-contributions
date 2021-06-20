@@ -1,3 +1,5 @@
+import { MarkdownString } from 'vscode';
+
 /**
  * Replace all `\n` with `<br>`
  */
@@ -39,6 +41,11 @@ export function escapeVerticalBar(str = '') {
 	return str
 		.replace(/\|/g, '\\|');
 	// .replace(/</g, '\\<');
+}
+export function escapeMarkdown(str = '') {
+	const md = new MarkdownString();
+	md.appendText(str);
+	return md.value;
 }
 /**
  * Remove prefix from the string.
