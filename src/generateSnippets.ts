@@ -7,6 +7,7 @@ export interface Snippet2 {
 	prefix: string;
 	body: string;
 	description: string;
+	language: string;
 }
 
 interface SnippetObj {
@@ -22,18 +23,19 @@ export function generateSnippets(snippetsContrib: NonNullable<IExtensionContribu
 	for (const snippetFile of snippetsContrib) {
 		const snippetFilePath = path.join(extensionPath, snippetFile.path);
 		if (fs.existsSync(snippetFilePath)) {
-			// const language = path.parse(path.basename(sn.path)).name;
+			const language = path.parse(path.basename(snippetFile.path)).name || '';
 			const snippetFileContents = fs.readFileSync(snippetFilePath).toString();
 			const snippetFileObject: SnippetObj = parse(snippetFileContents);
 			for (const key in snippetFileObject) {
 				const snippet = snippetFileObject[key];
-				const prefix = Array.isArray(snippet.prefix) ? snippet.prefix.map(p => `\`${p}\``).join(' ') : snippet.prefix;
-				const body = Array.isArray(snippet.body) ? snippet.body.map(b => `\`${b}\``).join('<br>') : snippet.body;
+				const prefix = Array.isArray(snippet.prefix) ? snippet.prefix.join(' ') : snippet.prefix;
+				const body = Array.isArray(snippet.body) ? snippet.body.join('\n') : snippet.body;
 
 				snippets.push({
 					prefix,
 					body,
 					description: snippet.description || '',
+					language,
 				});
 			}
 		}

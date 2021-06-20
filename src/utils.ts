@@ -38,14 +38,15 @@ ${text}
  * Replace all `|` with `\|`
  */
 export function escapeVerticalBar(str = '') {
-	return str
-		.replace(/\|/g, '\\|');
-	// .replace(/</g, '\\<');
+	return str.replace(/\|/g, '\\|');
 }
 export function escapeMarkdown(str = '') {
 	const md = new MarkdownString();
 	md.appendText(str);
 	return md.value;
+}
+export function escapeBackticks(str = '') {
+	return str.replace(/`/g, '\\`');
 }
 /**
  * Remove prefix from the string.

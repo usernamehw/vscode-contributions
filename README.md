@@ -1,13 +1,14 @@
 Generate VSCode extension contribution tables, like below:
 
 <!-- COMMANDS_START -->
-## Commands (3)
+## Commands (4)
 
 |Command|Description|
 |-|-|
 |contributions.generate|Generate contributions -> Insert into README|
 |contributions.generateUntitled|Generate contributions -> Open Untitled|
 |contributions.generateForInstalled|Generate contributions for installed extension -> Open Untitled|
+|contributions.generateForAllInstalled|Generate contributions for ALL installed extensions -> Open Untitled|
 <!-- COMMANDS_END -->
 
 <!-- SETTINGS_START -->
@@ -25,7 +26,7 @@ Generate VSCode extension contribution tables, like below:
 |contributions.settings.includeTypes|**true**|Whether to include setting `type` column or not.|
 |contributions.settings.truncateDefaultValue|**0**|Truncate default value if it's bigger than this setting. (0 to disable).|
 |contributions.settings.truncateDescription|**0**|Truncate description if it's bigger than this setting. (0 to disable).|
-|contributions.settings.excludeById|[]|Exclude settings from generation (by setting key).|
-|contributions.commands.excludeById|[]|Exclude commands from generation (by `command` property).|
-|contributions.snippets.includeBody|**true**|Whether to include snippet `body` column or not.|
+|contributions.settings.excludeById|\[\]|Exclude settings from generation (by setting key).|
+|contributions.commands.excludeById|\[\]|Exclude commands from generation (by `command` property).|
+|contributions.snippets.includeBody|**true**|Whether to include snippet `body` column or not. When enabled - table is rendered with html `<table>` tags.|
 <!-- SETTINGS_END -->

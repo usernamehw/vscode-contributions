@@ -136,7 +136,7 @@
 				},
 				"contributions.snippets.includeBody": {
 					"type": "boolean",
-					"markdownDescription": "Whether to include snippet `body` column or not.",
+					"markdownDescription": "Whether to include snippet `body` column or not. When enabled - table is rendered with html `<table>` tags.",
 					"default": true
 				}
 			}

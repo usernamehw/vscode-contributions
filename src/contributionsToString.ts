@@ -4,6 +4,7 @@ import { mdTable } from 'src/extensionUtils';
 import { Color2, generateColors } from 'src/generateColors';
 import { Command2, generateCommands } from 'src/generateCommands';
 import { Dependency2, generateDependencies } from 'src/generateDependencies';
+import { generateSnippetsHtmlTable } from 'src/generateHtmlTable';
 import { generateSettings, Setting2 } from 'src/generateSettings';
 import { generateSnippets, Snippet2 } from 'src/generateSnippets';
 import { IExtensionContributions, IExtensionManifest } from 'src/types';
@@ -57,14 +58,7 @@ export function contributionsToStrings(contributions: IExtensionContributions, p
 	}
 	let snippetsTable;
 	if (extensionConfig.snippets.includeBody) {
-		snippetsTable = mdTable([
-			['Prefix', 'Body', 'Description'],
-			...snippets2.map(snippet => [
-				snippet.prefix,
-				snippet.body,
-				snippet.description,
-			]),
-		]);
+		snippetsTable = generateSnippetsHtmlTable(snippets2);
 	} else {
 		snippetsTable = mdTable([
 			['Prefix', 'Description'],
