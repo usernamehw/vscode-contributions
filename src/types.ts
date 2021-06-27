@@ -35,6 +35,8 @@ export interface IConfigurationProperty {
 	markdownDescription?: string;
 	type?: string[] | string;
 	default?: any;
+	deprecationMessage?: string;
+	markdownDeprecationMessage?: string;
 }
 
 export interface IConfiguration {

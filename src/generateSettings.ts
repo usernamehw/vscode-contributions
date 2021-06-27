@@ -18,10 +18,14 @@ export function generateSettings(settingsContrib: NonNullable<IExtensionContribu
 function settingsPropertiesToSetting2(properties: IConfiguration['properties']) {
 	const settingItems = [];
 	for (const key in properties) {
+		const settingsItem = properties[key];
 		if (extensionConfig.settings.excludeById.includes(key)) {
 			continue;
 		}
-		settingItems.push(settingContribToSetting2(key, properties[key]));
+		if (settingsItem.deprecationMessage || settingsItem.markdownDeprecationMessage) {
+			continue;
+		}
+		settingItems.push(settingContribToSetting2(key, settingsItem));
 	}
 	return settingItems;
 }
