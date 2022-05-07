@@ -14,7 +14,7 @@ export function generateCommands(commandsContrib: NonNullable<IExtensionContribu
 		}
 		commands.push({
 			id: commandContrib.command,
-			title: (commandContrib.category ? `${commandContrib.category}: ` : '') + commandContrib.title,
+			title: (commandContrib.category ? `${commandContrib.category}: ` : '') + (commandContrib.description || commandContrib.title),
 		});
 	}
 	return commands;

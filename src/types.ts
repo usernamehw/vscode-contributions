@@ -27,6 +27,8 @@ export interface ExtensionConfig {
 export interface ICommand {
 	command: string;
 	title: string;
+	/** Non-standard */
+	description?: string;
 	category?: string;
 }
 
