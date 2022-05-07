@@ -5,6 +5,7 @@
 	"version": "0.0.7",
 	"publisher": "usernamehw",
 	"license": "MIT",
+	"icon": "img/icon.png",
 	"engines": {
 		"vscode": "^1.57.0"
 	},
