@@ -101,7 +101,8 @@ export function contributionsToStrings(contributions: IExtensionContributions, p
 	commandsTable = commands2.length ? `## ${Constants.Commands} (${commands2.length})\n\n${commandsTable}\n\n` : '';
 	settingsTable = settings2.length ? `## ${Constants.Settings} (${settings2.length})\n\n${settingsTable}\n\n` : '';
 	snippetsTable = snippets2.length ? `## ${Constants.Snippets} (${snippets2.length})\n\n${snippetsTable}\n\n` : '';
-	colorsTable = colors2.length ? `## ${Constants.Colors} (${colors2.length})\n\n${colorsTable}\n\n` : '';
+	const colorsInstruction = 'Can be specified in `settings.json` (**`workbench.colorCustomizations`** section)';
+	colorsTable = colors2.length ? `## ${Constants.Colors} (${colors2.length})\n\n${colorsInstruction}\n\n${colorsTable}\n\n` : '';
 	dependenciesTable = dependencies2.length ? `## ${Constants.ExtensionDependencies} (${dependencies2.length})\n\n${dependenciesTable}\n\n` : '';
 	return {
 		commands2,
