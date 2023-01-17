@@ -1,3 +1,7 @@
+[![Version](https://img.shields.io/visual-studio-marketplace/v/usernamehw.contributions)](https://marketplace.visualstudio.com/items?itemName=usernamehw.contributions)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/usernamehw.contributions)](https://marketplace.visualstudio.com/items?itemName=usernamehw.contributions)
+[![Rating](https://img.shields.io/visual-studio-marketplace/r/usernamehw.contributions)](https://marketplace.visualstudio.com/items?itemName=usernamehw.contributions)
+
 Generate VSCode extension contribution tables, like below:
 
 <!-- COMMANDS_START -->
