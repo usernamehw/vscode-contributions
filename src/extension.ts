@@ -3,14 +3,14 @@ import { registerAllCommands } from './commands';
 import { ExtensionConfig } from './types';
 
 export const EXTENSION_NAME = 'contributions';
-export let extensionConfig = workspace.getConfiguration(EXTENSION_NAME) as any as ExtensionConfig;
+export let $config = workspace.getConfiguration(EXTENSION_NAME) as any as ExtensionConfig;
 
-export class Global {
+export abstract class $state {
 	static extensionContext: ExtensionContext;
 }
 
 export function activate(extensionContext: ExtensionContext) {
-	Global.extensionContext = extensionContext;
+	$state.extensionContext = extensionContext;
 	updateEverything();
 
 	function onConfigChange(event: ConfigurationChangeEvent) {
@@ -21,7 +21,7 @@ export function activate(extensionContext: ExtensionContext) {
 	}
 
 	function updateConfigAndEverything(): void {
-		extensionConfig = workspace.getConfiguration(EXTENSION_NAME) as any as ExtensionConfig;
+		$config = workspace.getConfiguration(EXTENSION_NAME) as any as ExtensionConfig;
 		updateEverything();
 	}
 
@@ -29,14 +29,14 @@ export function activate(extensionContext: ExtensionContext) {
 }
 
 function disposeEverything() {
-	for (const disposable of Global.extensionContext.subscriptions) {
+	for (const disposable of $state.extensionContext.subscriptions) {
 		disposable?.dispose();
 	}
 }
 
 function updateEverything() {
 	disposeEverything();
-	registerAllCommands(Global.extensionContext.subscriptions);
+	registerAllCommands($state.extensionContext.subscriptions);
 }
 
 export function deactivate(): void { }

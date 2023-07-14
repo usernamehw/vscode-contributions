@@ -14,6 +14,7 @@ export interface ExtensionConfig {
 	};
 	settings: {
 		excludeById: string[];
+		replaceDefaultValue: Record<string, string>;
 		moveOutPrefix: boolean;
 		includeTypes: boolean;
 		truncateDefaultValue: number;

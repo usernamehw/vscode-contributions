@@ -1,5 +1,5 @@
 import { Constants } from './commands';
-import { extensionConfig } from './extension';
+import { $config } from './extension';
 import { mdTable } from './extensionUtils';
 import { Color2, generateColors } from './generateColors';
 import { Command2, generateCommands } from './generateCommands';
@@ -17,7 +17,7 @@ export function contributionsToStrings(contributions: IExtensionContributions, p
 	const snippets2: Snippet2[] = contributions.snippets ? generateSnippets(contributions.snippets, rootPackagePath) : [];
 	const dependencies2: Dependency2[] = packageJSON.extensionDependencies?.length ? generateDependencies(packageJSON.extensionDependencies) : [];
 
-	if (extensionConfig.sort === 'alphabetical') {
+	if ($config.sort === 'alphabetical') {
 		commands2.sort((a, b) => a.id.localeCompare(b.id));
 		settings2.sort((a, b) => a.id.localeCompare(b.id));
 		colors2.sort((a, b) => a.id.localeCompare(b.id));
@@ -32,15 +32,15 @@ export function contributionsToStrings(contributions: IExtensionContributions, p
 			command.title,
 		])]);
 	let commonPrefix = '';
-	if (extensionConfig.settings.moveOutPrefix && settings2.length) {
+	if ($config.settings.moveOutPrefix && settings2.length) {
 		commonPrefix = findCommonPrefix(settings2.map(setting => setting.id));
 	}
 	let settingsTable;
-	if (extensionConfig.settings.includeTypes) {
+	if ($config.settings.includeTypes) {
 		settingsTable = mdTable([
 			['Setting', 'Type', 'Default', 'Description'],
 			...settings2.map(item => [
-				extensionConfig.settings.moveOutPrefix ? removePrefix(item.id, commonPrefix) : item.id,
+				$config.settings.moveOutPrefix ? removePrefix(item.id, commonPrefix) : item.id,
 				item.type,
 				item.default,
 				item.description,
@@ -50,14 +50,14 @@ export function contributionsToStrings(contributions: IExtensionContributions, p
 		settingsTable = mdTable([
 			['Setting', 'Default', 'Description'],
 			...settings2.map(item => [
-				extensionConfig.settings.moveOutPrefix ? removePrefix(item.id, commonPrefix) : item.id,
+				$config.settings.moveOutPrefix ? removePrefix(item.id, commonPrefix) : item.id,
 				item.default,
 				item.description,
 			]),
 		]);
 	}
 	let snippetsTable;
-	if (extensionConfig.snippets.includeBody) {
+	if ($config.snippets.includeBody) {
 		snippetsTable = generateSnippetsHtmlTable(snippets2);
 	} else {
 		snippetsTable = mdTable([
@@ -86,11 +86,11 @@ export function contributionsToStrings(contributions: IExtensionContributions, p
 		]),
 	]);
 
-	if (extensionConfig.settings.moveOutPrefix) {
+	if ($config.settings.moveOutPrefix) {
 		settingsTable = `> **${packageJSON.displayName || packageJSON.name}** extension settings start with \`${commonPrefix}\`\n\n${settingsTable}`;
 	}
 
-	if (extensionConfig.wrapInDetailsTag) {
+	if ($config.wrapInDetailsTag) {
 		commandsTable = wrapInDetailsTag(commandsTable, Constants.Commands);
 		settingsTable = wrapInDetailsTag(settingsTable, Constants.Settings);
 		snippetsTable = wrapInDetailsTag(snippetsTable, Constants.Snippets);

@@ -1,4 +1,4 @@
-import { extensionConfig } from './extension';
+import { $config } from './extension';
 import { IExtensionContributions } from './types';
 
 export interface Command2 {
@@ -9,7 +9,7 @@ export interface Command2 {
 export function generateCommands(commandsContrib: NonNullable<IExtensionContributions['commands']>): Command2[] {
 	const commands = [];
 	for (const commandContrib of commandsContrib) {
-		if (extensionConfig.commands.excludeById.includes(commandContrib.command)) {
+		if ($config.commands.excludeById.includes(commandContrib.command)) {
 			continue;
 		}
 		commands.push({

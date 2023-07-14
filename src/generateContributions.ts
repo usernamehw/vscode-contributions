@@ -3,7 +3,7 @@ import path from 'path';
 import { QuickPickItem, Uri, extensions, window, workspace } from 'vscode';
 import { Constants } from './commands';
 import { contributionsToStrings } from './contributionsToString';
-import { extensionConfig } from './extension';
+import { $config } from './extension';
 import { findContributions } from './findContributions';
 import { IExtensionContributions, IExtensionManifest } from './types';
 import { removeLastChar } from './utils';
@@ -131,9 +131,9 @@ export async function generateContributions({ where, forUntitled }: { where: 'al
 			if (err) {
 				window.showErrorMessage(err.message);
 			}
-			if (extensionConfig.doOnCompletion === 'openReadmeFile') {
+			if ($config.doOnCompletion === 'openReadmeFile') {
 				openInEditor(readmeUri);
-			} else if (extensionConfig.doOnCompletion === 'showNotification') {
+			} else if ($config.doOnCompletion === 'showNotification') {
 				const openBtn = 'Open README';
 				const pressed = await window.showInformationMessage('✅  Done', openBtn);
 				if (pressed === openBtn) {

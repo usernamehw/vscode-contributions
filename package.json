@@ -122,6 +122,16 @@
 					"markdownDescription": "Exclude settings from generation (by setting key).",
 					"default": []
 				},
+				"contributions.settings.replaceDefaultValue": {
+					"type": "object",
+					"patternProperties": {
+						".+": {
+							"type": "string"
+						}
+					},
+					"markdownDescription": "Replace setting value.",
+					"default": {}
+				},
 				"contributions.commands.excludeById": {
 					"type": "array",
 					"items": {
