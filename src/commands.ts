@@ -1,4 +1,4 @@
-import { generateContributions } from 'src/generateContributions';
+import { generateContributions } from './generateContributions';
 import { commands, Disposable } from 'vscode';
 
 export const enum Constants {

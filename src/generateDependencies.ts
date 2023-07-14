@@ -1,5 +1,5 @@
-import { IExtensionManifest } from 'src/types';
 import { extensions } from 'vscode';
+import { IExtensionManifest } from './types';
 
 export interface Dependency2 {
 	name: string;

@@ -1,6 +1,6 @@
 import { markdownTable } from 'markdown-table';
-import { extensionConfig } from 'src/extension';
-import { escapeVerticalBar } from 'src/utils';
+import { extensionConfig } from './extension';
+import { escapeVerticalBar } from './utils';
 
 export function mdTable(rows: string[][]) {
 	const escapedRows = rows.map(row => row.map(item => escapeVerticalBar(item)));

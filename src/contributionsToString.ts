@@ -1,14 +1,14 @@
-import { Constants } from 'src/commands';
-import { extensionConfig } from 'src/extension';
-import { mdTable } from 'src/extensionUtils';
-import { Color2, generateColors } from 'src/generateColors';
-import { Command2, generateCommands } from 'src/generateCommands';
-import { Dependency2, generateDependencies } from 'src/generateDependencies';
-import { generateSnippetsHtmlTable } from 'src/generateHtmlTable';
-import { generateSettings, Setting2 } from 'src/generateSettings';
-import { generateSnippets, Snippet2 } from 'src/generateSnippets';
-import { IExtensionContributions, IExtensionManifest } from 'src/types';
-import { findCommonPrefix, removePrefix, wrapIn, wrapInDetailsTag } from 'src/utils';
+import { Constants } from './commands';
+import { extensionConfig } from './extension';
+import { mdTable } from './extensionUtils';
+import { Color2, generateColors } from './generateColors';
+import { Command2, generateCommands } from './generateCommands';
+import { Dependency2, generateDependencies } from './generateDependencies';
+import { generateSnippetsHtmlTable } from './generateHtmlTable';
+import { Setting2, generateSettings } from './generateSettings';
+import { Snippet2, generateSnippets } from './generateSnippets';
+import { IExtensionContributions, IExtensionManifest } from './types';
+import { findCommonPrefix, removePrefix, wrapIn, wrapInDetailsTag } from './utils';
 
 export function contributionsToStrings(contributions: IExtensionContributions, packageJSON: IExtensionManifest, rootPackagePath: string) {
 	const commands2: Command2[] = contributions.commands ? generateCommands(contributions.commands) : [];

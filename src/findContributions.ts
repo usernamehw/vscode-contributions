@@ -1,5 +1,5 @@
-import { IExtensionManifest } from 'src/types';
 import { Uri, window, workspace } from 'vscode';
+import { IExtensionManifest } from './types';
 
 /**
  * Find contributions in opened workspace.

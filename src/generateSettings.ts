@@ -1,6 +1,6 @@
-import { extensionConfig } from 'src/extension';
-import { IConfiguration, IConfigurationProperty, IExtensionContributions } from 'src/types';
-import { escapeMarkdown, ln2br, mdln2br, truncateString, wrapIn } from 'src/utils';
+import { extensionConfig } from './extension';
+import { IConfiguration, IConfigurationProperty, IExtensionContributions } from './types';
+import { escapeMarkdown, ln2br, mdln2br, truncateString, wrapIn } from './utils';
 import escape from 'lodash/escape';
 
 export function generateSettings(settingsContrib: NonNullable<IExtensionContributions['configuration']>) {

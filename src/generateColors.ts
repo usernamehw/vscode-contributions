@@ -1,4 +1,4 @@
-import { IExtensionContributions } from 'src/types';
+import { IExtensionContributions } from './types';
 
 export interface Color2 {
 	id: string;

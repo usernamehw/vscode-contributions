@@ -1,6 +1,6 @@
-import { registerAllCommands } from 'src/commands';
-import { ExtensionConfig } from 'src/types';
 import { ConfigurationChangeEvent, ExtensionContext, workspace } from 'vscode';
+import { registerAllCommands } from './commands';
+import { ExtensionConfig } from './types';
 
 export const EXTENSION_NAME = 'contributions';
 export let extensionConfig = workspace.getConfiguration(EXTENSION_NAME) as any as ExtensionConfig;

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { parse } from 'jsonc-parser';
 import path from 'path';
-import { IExtensionContributions } from 'src/types';
+import { IExtensionContributions } from './types';
 
 export interface Snippet2 {
 	prefix: string;

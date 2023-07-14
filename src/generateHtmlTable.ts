@@ -1,4 +1,4 @@
-import { Snippet2 } from 'src/generateSnippets';
+import { Snippet2 } from './generateSnippets';
 
 /**
  * Generate snippets table as html (snippet body with syntax highlighting)

@@ -1,13 +1,13 @@
 import fs from 'fs';
 import path from 'path';
-import { Constants } from 'src/commands';
-import { contributionsToStrings } from 'src/contributionsToString';
-import { extensionConfig } from 'src/extension';
-import { findContributions } from 'src/findContributions';
-import { IExtensionContributions, IExtensionManifest } from 'src/types';
-import { removeLastChar } from 'src/utils';
-import { openInEditor, openInUntitled } from 'src/vscodeUtils';
-import { extensions, QuickPickItem, Uri, window, workspace } from 'vscode';
+import { QuickPickItem, Uri, extensions, window, workspace } from 'vscode';
+import { Constants } from './commands';
+import { contributionsToStrings } from './contributionsToString';
+import { extensionConfig } from './extension';
+import { findContributions } from './findContributions';
+import { IExtensionContributions, IExtensionManifest } from './types';
+import { removeLastChar } from './utils';
+import { openInEditor, openInUntitled } from './vscodeUtils';
 
 export async function generateContributions({ where, forUntitled }: { where: 'allExtensions' | 'extension' | 'workspace'; forUntitled: boolean }) {
 	let contributes: IExtensionContributions | undefined;

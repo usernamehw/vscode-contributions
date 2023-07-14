@@ -1,5 +1,5 @@
-import { extensionConfig } from 'src/extension';
-import { IExtensionContributions } from 'src/types';
+import { extensionConfig } from './extension';
+import { IExtensionContributions } from './types';
 
 export interface Command2 {
 	id: string;
