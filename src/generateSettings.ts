@@ -63,7 +63,13 @@ function settingValueToString(value: unknown) {
 	} else if (typeof value === 'number' || typeof value === 'boolean' || value === null) {
 		settingValueStr = wrapIn(String(value), '**');
 	} else if (Array.isArray(value) || typeof value === 'object') {
-		settingValueStr = escapeMarkdown(JSON.stringify(value));
+		settingValueStr = JSON.stringify(value);
+		if ($config.settings.addSpaceAfterCommaInDefaultValue) {
+			settingValueStr = settingValueStr.replace(/,/g, ', ');
+		}
+		settingValueStr = escapeMarkdown(settingValueStr);
+		// escapeMarkdown() is overkill. Keep my whitespaces, they won't break the table.
+		settingValueStr = settingValueStr.replace(/&nbsp;/g, ' ');
 	} else {
 		settingValueStr = String(value);
 	}

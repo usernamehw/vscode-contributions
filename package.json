@@ -122,6 +122,11 @@
 					"markdownDescription": "Exclude settings from generation (by setting key).",
 					"default": []
 				},
+				"contributions.settings.addSpaceAfterCommaInDefaultValue": {
+					"type": "boolean",
+					"default": false,
+					"markdownDescription": "Add whitespace symbol after every comma symbol for object/arrays rendered in default value column in Settings table."
+				},
 				"contributions.settings.replaceDefaultValue": {
 					"type": "object",
 					"patternProperties": {

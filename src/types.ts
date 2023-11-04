@@ -16,6 +16,7 @@ export interface ExtensionConfig {
 		excludeById: string[];
 		replaceDefaultValue: Record<string, string>;
 		replaceDescription: Record<string, string>;
+		addSpaceAfterCommaInDefaultValue: boolean;
 		moveOutPrefix: boolean;
 		includeTypes: boolean;
 		truncateDefaultValue: number;
