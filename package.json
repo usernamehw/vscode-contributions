@@ -132,6 +132,16 @@
 					"markdownDescription": "Replace setting value.",
 					"default": {}
 				},
+				"contributions.settings.replaceDescription": {
+					"type": "object",
+					"patternProperties": {
+						".+": {
+							"type": "string"
+						}
+					},
+					"markdownDescription": "Replace setting description.",
+					"default": {}
+				},
 				"contributions.commands.excludeById": {
 					"type": "array",
 					"items": {

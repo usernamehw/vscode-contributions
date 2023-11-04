@@ -38,7 +38,7 @@ export interface Setting2 {
 }
 export function settingContribToSetting2(key: string, property: IConfigurationProperty): Setting2 {
 	let id = key;
-	let description = contribToDescription(property);
+	let description = $config.settings.replaceDescription[key] ? $config.settings.replaceDescription[key] : contribToDescription(property);
 	const defaultValue = $config.settings.replaceDefaultValue[key];
 
 	if (description.toLocaleLowerCase().includes('paid')) {
